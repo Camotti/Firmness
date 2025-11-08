@@ -1,4 +1,5 @@
-﻿namespace firmness.Application.Interfaces
+﻿using firmness.Domain.Entities;
+namespace firmness.Application.Interfaces
 {
     public interface IProductService
     {
