@@ -47,15 +47,15 @@ builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IClientService, ClientService>();
 builder.Services.AddScoped<IFileService, FileService>();
 
-//Repositorio  y servicio de ventas
+// Repositorio  y servicio de ventas
 builder.Services.AddScoped<SalesRepository>();
 builder.Services.AddScoped<SalesService>();
 
 
-// 5️⃣ Construcción de la aplicación
+// Construcción de la aplicación
 var app = builder.Build();
 
-// 6️⃣ Configuración del pipeline HTTP
+// Configuración del pipeline HTTP
 if (app.Environment.IsDevelopment())
 {
     app.UseMigrationsEndPoint();
