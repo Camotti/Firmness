@@ -1,0 +1,120 @@
+﻿using firmness.Contracts;
+using firmness.Data;
+using firmness.Data.Entities;
+using firmness.Interfaces;
+using firmness.Repositories;
+using firmness.Services;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using OfficeOpenXml;
+
+var builder = WebApplication.CreateBuilder(args);
+
+// Configurar EPPlus para uso no comercial (versión 8+)
+// Opción 1: Para uso organizacional
+ExcelPackage.License.SetNonCommercialOrganization("firmness");
+
+
+
+// 1️⃣ Database connection (PostgreSQL)
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
+    ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseNpgsql(connectionString));  // Use PostgreSQL provider
+
+builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+
+// 2️⃣ Identity configuration (usando IdentityUser estándar)
+builder.Services.AddDefaultIdentity<AppUser>(options =>
+{
+    options.SignIn.RequireConfirmedAccount = false; // No requiere confirmación por correo
+})
+.AddRoles<IdentityRole>() // Soporte para roles (Admin, etc.)
+.AddEntityFrameworkStores<ApplicationDbContext>();
+
+// 3️⃣ Razor Pages
+builder.Services.AddRazorPages();
+
+// generate pdfs
+builder.Services.AddScoped<PdfService>();
+
+// 4️⃣ Registro de repositorios y servicios
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IClientRepository, ClientRepository>();
+
+builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IClientService, ClientService>();
+builder.Services.AddScoped<IFileService, FileService>();
+
+//Repositorio  y servicio de ventas
+builder.Services.AddScoped<SalesRepository>();
+builder.Services.AddScoped<SalesService>();
+
+
+// 5️⃣ Construcción de la aplicación
+var app = builder.Build();
+
+// 6️⃣ Configuración del pipeline HTTP
+if (app.Environment.IsDevelopment())
+{
+    app.UseMigrationsEndPoint();
+}
+else
+{
+    app.UseExceptionHandler("/Error");
+    app.UseHsts();
+}
+
+app.UseHttpsRedirection();
+app.UseStaticFiles();
+
+app.UseRouting();
+
+app.UseAuthentication();  // Middleware de autenticación
+app.UseAuthorization();   // Middleware de autorización
+
+app.MapRazorPages();
+
+// 7️⃣ Inicialización de roles y usuario administrador
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+
+    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+    var userManager = services.GetRequiredService<UserManager<AppUser>>();
+
+    // Crear roles
+    string[] roleNames = { "Admin", "Cliente" };
+    foreach (var roleName in roleNames)
+    {
+        if (!await roleManager.RoleExistsAsync(roleName))
+        {
+            await roleManager.CreateAsync(new IdentityRole(roleName));
+        }
+    }
+
+    // Crear administrador
+    string adminEmail = "admin@firmess.com";
+    string adminPassword = "Admin123.";
+
+    var adminUser = await userManager.FindByEmailAsync(adminEmail);
+    if (adminUser == null)
+    {
+        var newAdmin = new AppUser
+        {
+            UserName = adminEmail,
+            Email = adminEmail,
+            FullUserName = "System Administrator",
+            EmailConfirmed = true
+        };
+
+        var result = await userManager.CreateAsync(newAdmin, adminPassword);
+        if (result.Succeeded)
+        {
+            await userManager.AddToRoleAsync(newAdmin, "Admin");
+        }
+    }
+}
+
+app.Run();

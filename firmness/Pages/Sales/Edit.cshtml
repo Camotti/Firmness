@@ -1,0 +1,45 @@
+﻿@page
+@model firmness.Pages.Sales.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Sale</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Sale.SaleId" />
+            <div class="form-group">
+                <label asp-for="Sale.Date" class="control-label"></label>
+                <input asp-for="Sale.Date" class="form-control" />
+                <span asp-validation-for="Sale.Date" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Sale.ClientId" class="control-label"></label>
+                <select asp-for="Sale.ClientId" class="form-control" asp-items="ViewBag.ClientId"></select>
+                <span asp-validation-for="Sale.ClientId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Sale.EmployeeId" class="control-label"></label>
+                <select asp-for="Sale.EmployeeId" class="form-control" asp-items="ViewBag.EmployeeId"></select>
+                <span asp-validation-for="Sale.EmployeeId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

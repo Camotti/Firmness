@@ -1,0 +1,43 @@
+﻿@page
+@model firmness.Pages.Dashboard.IndexModel
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="container mt-4">
+    <h1 class="mb-4 text-center text-primary">📊 Firmness Admin Dashboard</h1>
+
+    <div class="row text-center">
+        <div class="col-md-3 mb-4">
+            <div class="card bg-primary text-white shadow p-3">
+                <h4>Clients</h4>
+                <h2>@Model.TotalClients</h2>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="card bg-success text-white shadow p-3">
+                <h4>Employees</h4>
+                <h2>@Model.TotalEmployees</h2>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="card bg-warning text-white shadow p-3">
+                <h4>Products</h4>
+                <h2>@Model.TotalProducts</h2>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="card bg-danger text-white shadow p-3">
+                <h4>Sales</h4>
+                <h2>@Model.TotalSales</h2>
+            </div>
+        </div>
+
+        <div class="mt-4 text-center">
+            <a asp-page="/Excel/Import" class="btn btn-outline-info btn-lg shadow-sm">
+                Import Data from Excel
+            </a>
+        </div>
+
+    </div>
+</div>

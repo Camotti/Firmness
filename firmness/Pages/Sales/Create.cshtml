@@ -1,0 +1,52 @@
+﻿@page
+@model firmness.Pages.Sales.CreateModel
+
+@{
+    ViewData["Title"] = "Create Sale";
+}
+
+<h1>Create Sale</h1>
+<hr />
+
+<div class="row">
+    <div class="col-md-5">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <!-- Fecha (prellenada con hora UTC actual) -->
+            <div class="form-group mb-3">
+                <label asp-for="Sale.Date" class="control-label"></label>
+                <input asp-for="Sale.Date"
+                       class="form-control"
+                       type="datetime-local"
+                       value="@DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm")" />
+                <span asp-validation-for="Sale.Date" class="text-danger"></span>
+            </div>
+
+            <!-- Cliente -->
+            <div class="form-group mb-3">
+                <label asp-for="Sale.ClientId" class="control-label"></label>
+                <select asp-for="Sale.ClientId" class="form-control" asp-items="ViewBag.ClientId"></select>
+                <span asp-validation-for="Sale.ClientId" class="text-danger"></span>
+            </div>
+
+            <!-- Empleado -->
+            <div class="form-group mb-3">
+                <label asp-for="Sale.EmployeeId" class="control-label"></label>
+                <select asp-for="Sale.EmployeeId" class="form-control" asp-items="ViewBag.EmployeeId"></select>
+                <span asp-validation-for="Sale.EmployeeId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+                <a asp-page="Index" class="btn btn-secondary ms-2">Back to List</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
