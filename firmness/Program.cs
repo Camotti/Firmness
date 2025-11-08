@@ -55,7 +55,7 @@ builder.Services.AddScoped<SalesService>();
 // Construcción de la aplicación
 var app = builder.Build();
 
-// Configuración del pipeline HTTP
+// Configuración del pipeline HTTP hola papa
 if (app.Environment.IsDevelopment())
 {
     app.UseMigrationsEndPoint();
