@@ -41,8 +41,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Migrations\" />
     <Folder Include="wwwroot\receipts\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\firmness.Application\firmness.Application.csproj" />
+    <ProjectReference Include="..\firmness.Infrastructure\firmness.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
