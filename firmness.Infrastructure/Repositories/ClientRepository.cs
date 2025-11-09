@@ -1,5 +1,8 @@
 ﻿using firmness.Infrastructure.Data;
 using firmness.Domain.Entities;
+using firmness.Application.Interfaces.Repositories;
+using Microsoft.EntityFrameworkCore;
+
 namespace firmness.Infrastructure.Repositories
 {
     public class ClientRepository : IClientRepository
