@@ -1,4 +1,9 @@
-﻿using System.Globalization;
+﻿using firmness.Domain.Entities;
+using QuestPDF.Fluent;
+using QuestPDF.Helpers;
+using QuestPDF.Infrastructure;
+using System.Globalization;
+
 
 namespace firmness.Application.Services
 {

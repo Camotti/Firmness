@@ -1,5 +1,6 @@
-﻿using firmness.Application.Interfaces;
-using firmness.Domain.Entities;
+﻿using firmness.Domain.Entities;
+using firmness.Application.Interfaces;
+
 namespace firmness.Application.Services
 {
     public class ClientService : IClientService

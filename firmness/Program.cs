@@ -1,9 +1,7 @@
-﻿using firmness.Contracts;
-using firmness.Data;
-using firmness.Data.Entities;
-using firmness.Interfaces;
-using firmness.Repositories;
-using firmness.Services;
+﻿using firmness.Application.Services;
+using firmness.Domain.Entities;
+using firmness.Infrastructure.Data;
+using firmness.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using OfficeOpenXml;

@@ -1,5 +1,8 @@
-﻿using firmness.Application.Interfaces;
-using firmness.Domain.Entities;
+﻿using firmness.Domain.Entities;
+using firmness.Application.Interfaces;
+using firmness.Infrastructure.Repositories;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 namespace firmness.Application.Services
 {
     public class ProductService : IProductService

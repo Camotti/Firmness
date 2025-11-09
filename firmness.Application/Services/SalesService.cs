@@ -1,4 +1,10 @@
-﻿namespace firmness.Application.Services
+﻿using firmness.Domain.Entities;
+using firmness.Application.Interfaces;
+using firmness.Infrastructure.Repositories;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+namespace firmness.Application.Services
 {
     public class SalesService
     {
