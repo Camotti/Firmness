@@ -1,12 +1,12 @@
 ﻿using firmness.Infrastructure.Data;
 using firmness.Infrastructure.Data;
 using firmness.Domain.Entities;
-using firmness.Application.Interfaces.Repositories;
+using firmness.Application.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace firmness.Infrastructure.Repositories
 {
-    public class SalesRepository
+    public class SalesRepository : ISalesRepository
     {
         private readonly ApplicationDbContext _context;
 

@@ -47,7 +47,7 @@ builder.Services.AddScoped<IClientService, ClientService>();
 builder.Services.AddScoped<IFileService, FileService>();
 
 // Repositorio  y servicio de ventas
-builder.Services.AddScoped<SalesRepository>();
+builder.Services.AddScoped<ISalesRepository, SalesRepository>();
 builder.Services.AddScoped<SalesService>();
 
 

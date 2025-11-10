@@ -16,7 +16,7 @@ namespace firmness.Application.Services
                 container.Page(page =>
                 {
                     page.Margin(40);
-                    page.Header().Text(" Firmness Sales Receipt").Bold().FontSize(20).AlignCenter();
+                    page.Header().Text(" Firmness Sales Receipt").Bold().FontSize(20);
                     page.Content().PaddingVertical(10).Column(col =>
                     {
                         col.Spacing(8);

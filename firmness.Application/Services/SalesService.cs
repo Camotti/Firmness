@@ -15,7 +15,12 @@ namespace firmness.Application.Services
             _salesRepo = salesRepo;
         }
 
-        public async Task<List<Sale>> GetAllSalesAsync() => await _salesRepo.GetAllAsync();
+        public async Task<List<Sale>> GetAllSalesAsync()
+        {
+            var sales = await _salesRepo.GetAllAsync();
+            return sales.ToList();
+        }
+
 
         public async Task<Sale?> GetSaleByIdAsync(int id) => await _salesRepo.GetByIdAsync(id);
 
