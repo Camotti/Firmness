@@ -1,6 +1,6 @@
-﻿using firmness.Data.Entities;
-using Xunit;
+﻿using Xunit;
 using System.Collections.Generic;
+using firmness.Domain.Entities;
 
 namespace firmness.Tests.Services
 {

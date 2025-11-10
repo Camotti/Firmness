@@ -1,5 +1,6 @@
 ﻿using firmness.Domain.Entities;
 using firmness.Application.Interfaces;
+using firmness.Infrastructure.Repositories;
 
 namespace firmness.Application.Services
 {

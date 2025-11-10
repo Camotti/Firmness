@@ -1,5 +1,5 @@
+using firmness.Infrastructure.Data;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using firmness.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace firmness.Pages.Dashboard

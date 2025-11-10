@@ -8,9 +8,9 @@ namespace firmness.Application.Services
 {
     public class SalesService
     {
-        private readonly SalesRepository _salesRepo;
+        private readonly ISalesRepository _salesRepo;
 
-        public SalesService(SalesRepository salesRepo)
+        public SalesService(ISalesRepository salesRepo)
         {
             _salesRepo = salesRepo;
         }

@@ -1,5 +1,5 @@
-﻿using firmness.Contracts;
-using firmness.Data.Entities;
+﻿using firmness.Application.Interfaces;
+using firmness.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 

@@ -1,6 +1,6 @@
+using firmness.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using firmness.Interfaces;
 
 namespace firmness.Pages.Files
 {
@@ -27,7 +27,7 @@ namespace firmness.Pages.Files
         {
             if (ExcelFile == null || ExcelFile.Length == 0)
             {
-                ModelState.AddModelError("", "Seleccione un archivo Excel válido.");
+                ModelState.AddModelError("", "Seleccione un archivo Excel vï¿½lido.");
                 return Page();
             }
 
@@ -53,7 +53,7 @@ namespace firmness.Pages.Files
             }
             catch (Exception ex)
             {
-                Errors.Add($"Ocurrió un error al procesar el archivo: {ex.Message}");
+                Errors.Add($"Ocurriï¿½ un error al procesar el archivo: {ex.Message}");
             }
 
             return Page();

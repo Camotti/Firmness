@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using firmness.Domain.Entities;
+using firmness.Domain.Models;
 
 namespace firmness.Infrastructure.Data
 {

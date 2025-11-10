@@ -5,16 +5,16 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using firmness.Data;
-using firmness.Data.Entities;
+using firmness.Domain.Entities;
+using firmness.Infrastructure.Data;
 
 namespace firmness.Pages.Clients
 {
     public class CreateModel : PageModel
     {
-        private readonly firmness.Data.ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public CreateModel(firmness.Data.ApplicationDbContext context)
+        public CreateModel(ApplicationDbContext context)
         {
             _context = context;
         }

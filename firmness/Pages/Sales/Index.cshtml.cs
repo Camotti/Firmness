@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using firmness.Domain.Entities;
+using firmness.Infrastructure.Data;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using firmness.Data;
-using firmness.Data.Entities;
+
 
 namespace firmness.Pages.Sales
 {
