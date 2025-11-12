@@ -73,6 +73,7 @@ namespace firmness.Controllers
             return View(vm);
         }
 
+        // editar producto post 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(ProductViewModel vm)
@@ -93,6 +94,23 @@ namespace firmness.Controllers
             if (result.Success) return RedirectToAction(nameof(Index));
             
             ModelState.AddModelError("", result.Message);
+            return View(vm);
         }
-    }
+        
+        //Eliminar producto por Get 
+        public async Task<IActionResult> Delete(int id)
+        {
+            var product = (await _productService.GetAllAsync()).FirstOrDefault(p => p.Id == id);
+            if (product == null) return NotFound();
+            return View(product);
+        }
+        
+        // Eliminar producto por POST
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            await _productService.DeleteAsync(id);
+            return RedirectToAction(nameof(Index));
+        }
 }
