@@ -17,23 +17,23 @@ namespace firmness.Controllers
         {
             _productService = productService;
         }
-        
-        
+
+
         // List products 
         public async Task<IActionResult> Index()
         {
             var products = await _productService.GetAllAsync();
             return View(products);
         }
-        
-        
+
+
         //crear un nuevo producto (Get)
         public IActionResult Create()
         {
             return View();
         }
 
-        
+
         // Crear un nuevo producto con (Post)
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -42,22 +42,22 @@ namespace firmness.Controllers
             if (!ModelState.IsValid)
                 return View(vm);
 
-            var createProductDto = new CreateProductDto
+            var product = new Product
             {
                 Name = vm.Name,
                 Price = vm.Price,
                 Stock = vm.Stock,
                 Description = vm.Description
             };
-            
-            var result = await _productService.CreateAsync(createProductDto);
+
+            var result = await _productService.CreateAsync(product);
             if (result.Success)
                 return RedirectToAction(nameof(Index));
-            
+
             ModelState.AddModelError("", result.Message);
             return View(vm);
         }
-        
+
         // editar producto (get)
         public async Task<IActionResult> Edit(int id)
         {
@@ -94,11 +94,11 @@ namespace firmness.Controllers
 
             var result = await _productService.UpdateAsync(product);
             if (result.Success) return RedirectToAction(nameof(Index));
-            
+
             ModelState.AddModelError("", result.Message);
             return View(vm);
         }
-        
+
         //Eliminar producto por Get 
         public async Task<IActionResult> Delete(int id)
         {
@@ -106,7 +106,7 @@ namespace firmness.Controllers
             if (product == null) return NotFound();
             return View(product);
         }
-        
+
         // Eliminar producto por POST
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
@@ -115,4 +115,5 @@ namespace firmness.Controllers
             await _productService.DeleteAsync(id);
             return RedirectToAction(nameof(Index));
         }
+    }
 }
