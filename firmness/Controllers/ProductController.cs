@@ -1,6 +1,8 @@
 
 
+using firmness.Application.DTOs;
 using firmness.Application.Interfaces;
+using firmness.Domain.Entities;
 using firmness.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
@@ -81,7 +83,7 @@ namespace firmness.Controllers
             if (!ModelState.IsValid)
                 return View(vm);
 
-            var product = new product
+            var product = new Product
             {
                 Id = vm.Id,
                 Name = vm.Name,
