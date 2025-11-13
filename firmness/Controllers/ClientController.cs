@@ -1,6 +1,8 @@
+using firmness.Application.DTOs;
 using firmness.Application.Interfaces;
 using firmness.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using firmness.Application.DTOs;
 
 namespace firmness.Controllers;
 
@@ -27,13 +29,14 @@ public class ClientController: Controller
         if (!ModelState.IsValid)
             return View(model);
 
-        var dto = new ClientDTO
+        var dto = new ClientDto
         {
             Name = model.Name,
             LastName = model.LastName,
             Email = model.Email,
             Phone = model.Phone,
-            Document = model.Document.Address = model.Address
+            Document = model.Document, 
+            Address = model.Address
         };
 
         var result = await _clientService.CreateAsync(new Domain.Entities.Client
@@ -76,7 +79,8 @@ public class ClientController: Controller
     [HttpPost]
     public async Task<IActionResult> Edit(int id, ClientViewModel model)
     {
-        if (!ModelState.IsValid) return View(model);
+        if (!ModelState.IsValid) 
+            return View(model);
         var entity = new Domain.Entities.Client
         {
             Id = id,

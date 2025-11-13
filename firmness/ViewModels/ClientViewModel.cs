@@ -2,12 +2,12 @@
 using System.ComponentModel.DataAnnotations;
 
 namespace firmness.ViewModels
-{    
-
-public class ClientViewModel
 {
-    public class ClientViewModels
+
+    public class ClientViewModel
     {
+
+
         [Required(ErrorMessage = "The name is obligatory")]
         public string Name { get; set; } = string.Empty;
 
@@ -28,7 +28,7 @@ public class ClientViewModel
 
         [Required(ErrorMessage = "The address is obligatory")]
         public string Address { get; set; } = string.Empty;
+
     }
-}
 
 }
