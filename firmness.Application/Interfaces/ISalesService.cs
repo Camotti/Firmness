@@ -5,7 +5,7 @@ namespace firmness.Application.Interfaces;
 public interface ISalesService
 {
     Task<List<Sale>> GetAllSalesAsync();
-    Task<Sale> GetSaleByIdAsync(int id);
+    Task<Sale?> GetSaleByIdAsync(int id);
     Task<bool> CreateSaleAsync(Sale sale);
     Task<bool> UpdateSaleAsync(Sale sale);
     Task<bool> DeleteSaleAsync(int id);

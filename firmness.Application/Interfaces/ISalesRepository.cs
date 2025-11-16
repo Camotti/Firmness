@@ -10,4 +10,5 @@ public interface ISalesRepository
     Task DeleteAsync(int id);
     Task<List<Client>> GetClientsAsync();
     Task<List<Employee>> GetEmployeesAsync();
+    Task<List<Product>> GetProductsAsync();
 }

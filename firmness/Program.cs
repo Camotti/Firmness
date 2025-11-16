@@ -41,14 +41,18 @@ builder.Services.AddScoped<PdfService>();
 // 4️⃣ Registro de repositorios y servicios
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IClientRepository, ClientRepository>();
+builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>(); 
 
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IClientService, ClientService>();
+builder.Services.AddScoped<IEmployeeService, EmployeeService>();       
+
 builder.Services.AddScoped<IFileService, FileService>();
 
 // Repositorio  y servicio de ventas
 builder.Services.AddScoped<ISalesRepository, SalesRepository>();
-builder.Services.AddScoped<SalesService>();
+builder.Services.AddScoped<ISalesService, SalesService>();
+// builder.Services.AddScoped<SalesService>();
 
 
 // Construcción de la aplicación aws hola

@@ -72,5 +72,10 @@ namespace firmness.Infrastructure.Repositories
         {
             return await _context.Employees.OrderBy(e => e.Name).ToListAsync();
         }
+        
+        public async Task<List<Product>> GetProductsAsync()
+        {
+            return await _context.Products.OrderBy(p => p.Name).ToListAsync();
+        }
     }
 }

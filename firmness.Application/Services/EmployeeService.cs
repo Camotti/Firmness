@@ -3,7 +3,7 @@ using firmness.Domain.Entities;
 
 namespace firmness.Application.Services;
 
-public class EmployeeService
+public class EmployeeService : IEmployeeService
 {
     private readonly IEmployeeRepository _repo;
 

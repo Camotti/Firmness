@@ -1,12 +1,11 @@
 ﻿using firmness.Domain.Entities;
 using firmness.Application.Interfaces;
+using firmness.Application.Interfaces.Repositories;
 using firmness.Infrastructure.Repositories;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
 namespace firmness.Application.Services
 {
-    public class SalesService
+    public class SalesService : ISalesService
     {
         private readonly ISalesRepository _salesRepo;
 
@@ -21,8 +20,10 @@ namespace firmness.Application.Services
             return sales.ToList();
         }
 
-
-        public async Task<Sale?> GetSaleByIdAsync(int id) => await _salesRepo.GetByIdAsync(id);
+        public async Task<Sale?> GetSaleByIdAsync(int id)  // 
+        {
+            return await _salesRepo.GetByIdAsync(id);
+        }
 
         public async Task<bool> CreateSaleAsync(Sale sale)
         {
@@ -63,8 +64,14 @@ namespace firmness.Application.Services
             }
         }
 
-        public async Task<List<Client>> GetClientsAsync() => await _salesRepo.GetClientsAsync();
+        public async Task<List<Client>> GetClientsAsync() => 
+            await _salesRepo.GetClientsAsync();
 
-        public async Task<List<Employee>> GetEmployeesAsync() => await _salesRepo.GetEmployeesAsync();
+        public async Task<List<Employee>> GetEmployeesAsync() => 
+            await _salesRepo.GetEmployeesAsync();
+
+        
+        public async Task<List<Product>> GetProductsAsync() => 
+            await _salesRepo.GetProductsAsync();
     }
 }
