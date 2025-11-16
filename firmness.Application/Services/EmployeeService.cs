@@ -1,3 +1,6 @@
+using firmness.Application.Interfaces;
+using firmness.Domain.Entities;
+
 namespace firmness.Application.Services;
 
 public class EmployeeService
