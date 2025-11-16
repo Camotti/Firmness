@@ -25,18 +25,18 @@ namespace firmness.Controllers
             _employeeService = employeeService;
         }
 
-        // ========================
+        
         //        LISTAR
-        // ========================
+        
         public async Task<IActionResult> Index()
         {
             var sales = await _salesService.GetAllSalesAsync();
             return View(sales);
         }
 
-        // ========================
+        
         //     CREAR - GET
-        // ========================
+        
         public async Task<IActionResult> Create()
         {
             var vm = new SaleViewModel
@@ -59,9 +59,9 @@ namespace firmness.Controllers
             return View(vm);
         }
 
-        // ========================
+        
         //     CREAR - POST
-        // ========================
+        
         [HttpPost]
         public async Task<IActionResult> Create(SaleViewModel vm)
         {
@@ -80,7 +80,7 @@ namespace firmness.Controllers
                     ProductId = d.ProductId,
                     Quantity = d.Quantity,
                     UnitPrice = d.UnitPrice,
-                    Total = d.Quantity * d.UnitPrice
+                    
                 }).ToList()
             };
 
@@ -147,7 +147,7 @@ namespace firmness.Controllers
                 ProductId = d.ProductId,
                 Quantity = d.Quantity,
                 UnitPrice = d.UnitPrice,
-                Total = d.Quantity * d.UnitPrice
+                
             }).ToList();
 
             await _salesService.UpdateSaleAsync(sale);
