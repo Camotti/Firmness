@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer; 
 using Microsoft.IdentityModel.Tokens;                 
 using firmness.Domain.Entities;                       
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -44,7 +45,7 @@ builder.Services.AddSwaggerGen(options =>
             new string[] {}
         }
     });
-}); // ✅ CERRAR AQUÍ
+}); 
 
 // 3️⃣ Database (PostgreSQL)
 builder.Services.AddDbContext<ApplicationDbContext>(options => 

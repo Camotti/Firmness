@@ -25,7 +25,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 // 2️⃣ Identity configuration (usando IdentityUser estándar)
-builder.Services.AddDefaultIdentity<AppUser>(options =>
+builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
 {
     options.SignIn.RequireConfirmedAccount = false; // No requiere confirmación por correo
 })
@@ -85,7 +85,7 @@ using (var scope = app.Services.CreateScope())
     var services = scope.ServiceProvider;
 
     var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
-    var userManager = services.GetRequiredService<UserManager<AppUser>>();
+    var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
 
     // Crear roles
     string[] roleNames = { "Admin", "Cliente" };
@@ -104,7 +104,7 @@ using (var scope = app.Services.CreateScope())
     var adminUser = await userManager.FindByEmailAsync(adminEmail);
     if (adminUser == null)
     {
-        var newAdmin = new AppUser
+        var newAdmin = new ApplicationUser
         {
             UserName = adminEmail,
             Email = adminEmail,
