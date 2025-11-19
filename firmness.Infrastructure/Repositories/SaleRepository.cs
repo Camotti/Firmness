@@ -77,5 +77,8 @@ namespace firmness.Infrastructure.Repositories
         {
             return await _context.Products.OrderBy(p => p.Name).ToListAsync();
         }
+        
+        public async Task SaveAsync() =>
+            await _context.SaveChangesAsync();
     }
 }

@@ -116,12 +116,13 @@ namespace firmness.Controllers
                     .Select(p => new SelectListItem { Value = p.Id.ToString(), Text = p.Name })
                     .ToList(),
 
-                Details = vm.Details.Select(d => new SaleDetailDto()
+                Details = sale.Details.Select(d => new SaleDetailViewModel
                 {
                     ProductId = d.ProductId,
                     Quantity = d.Quantity,
                     UnitPrice = d.UnitPrice
                 }).ToList()
+
             };
 
             return View(vm);
@@ -136,22 +137,21 @@ namespace firmness.Controllers
             if (!ModelState.IsValid)
                 return await ReloadData(vm);
 
-            var sale = await _salesService.GetSaleByIdAsync(vm.SaleId);
-            if (sale == null) return NotFound();
-
-            sale.ClientId = vm.ClientId;
-            sale.EmployeeId = vm.EmployeeId;
-
-            sale.SaleDetails = vm.Details.Select(d => new SaleDetail
+            var updateSaleDto = new UpdateSaleDto
             {
-                SaleId = sale.SaleId,
-                ProductId = d.ProductId,
-                Quantity = d.Quantity,
-                UnitPrice = d.UnitPrice,
-                
-            }).ToList();
+                Id = vm.SaleId,
+                ClientId = vm.ClientId,
+                EmployeeId = vm.EmployeeId,
 
-            await _salesService.UpdateSaleAsync(sale);
+                Details = vm.Details.Select(d => new UpdateSaleDetailDto
+                {
+                    ProductId = d.ProductId,
+                    Quantity = d.Quantity,
+                    UnitPrice = d.UnitPrice
+                }).ToList()
+            };
+
+            await _salesService.UpdateSaleAsync(updateSaleDto);
 
             return RedirectToAction("Index");
         }
