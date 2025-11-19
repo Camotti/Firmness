@@ -6,6 +6,7 @@ using firmness.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using OfficeOpenXml;
+using AutoMapper;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -57,6 +58,10 @@ builder.Services.AddScoped<ISalesService, SalesService>();
 
 // Construcción de la aplicación aws hola
 var app = builder.Build();
+
+//registar autoMapper
+builder.Services.AddAutoMapper(cfg => { }, AppDomain.CurrentDomain.GetAssemblies());
+
 
 // Configuración del pipeline HTTP hola people
 if (app.Environment.IsDevelopment())

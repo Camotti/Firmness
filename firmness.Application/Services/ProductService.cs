@@ -3,30 +3,38 @@ using firmness.Application.Interfaces;
 using firmness.Infrastructure.Repositories;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using AutoMapper;
+using firmness.Application.DTOs;
+
 namespace firmness.Application.Services
 {
     public class ProductService : IProductService
     {
         private readonly IProductRepository _repo;
+        private readonly IMapper _mapper;
 
-        public ProductService(IProductRepository repo)
+        public ProductService(IProductRepository repo, IMapper mapper)
         {
             _repo = repo;
+            _mapper = mapper;
         }
 
-        public async Task<(bool Success, string Message)> CreateAsync(Product product)
+        public async Task<(bool Success, string Message)> CreateAsync(CreateProductDto createProductDto)
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(product.Name))
+                if (string.IsNullOrWhiteSpace(createProductDto.Name))
                     return (false, "El nombre del producto es obligatorio.");
 
-                if (product.Price < 0)
+                if (createProductDto.Price < 0)
                     return (false, "El precio no puede ser negativo.");
 
-                if (product.Stock < 0)
+                if (createProductDto.Stock < 0)
                     return (false, "El stock no puede ser negativo.");
 
+                // mapeamos el DTO a la entidad product
+                var product = _mapper.Map<Product>(createProductDto);
+                
                 await _repo.AddAsync(product);
                 await _repo.SaveAsync();
 
@@ -45,13 +53,14 @@ namespace firmness.Application.Services
         public async Task<List<Product>> GetAllAsync() =>
             await _repo.GetAllAsync();
 
-        public async Task<(bool Success, string Message)> UpdateAsync(Product product)
+        public async Task<(bool Success, string Message)> UpdateAsync(UpdateProductDto updateProductDto)
         {
             try
             {
-                if (product.Id <= 0)
+                if (updateProductDto.Id <= 0)
                     return (false, "ID de producto inválido.");
 
+                var product = _mapper.Map<Product>(updateProductDto);
                 await _repo.UpdateAsync(product);
                 await _repo.SaveAsync();
 

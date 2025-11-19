@@ -1,4 +1,5 @@
-﻿using firmness.Application.Interfaces;
+﻿using firmness.Application.DTOs;
+using firmness.Application.Interfaces;
 using firmness.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -24,7 +25,7 @@ namespace firmness.Pages.Products
             if (!ModelState.IsValid)
                 return Page();
 
-            var (success, message) = await _productService.CreateAsync(Product);
+            var (success, message) = await _productService.CreateAsync(new CreateProductDto());
             TempData["Message"] = message;
 
             if (!success)

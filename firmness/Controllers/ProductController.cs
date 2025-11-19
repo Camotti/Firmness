@@ -42,7 +42,7 @@ namespace firmness.Controllers
             if (!ModelState.IsValid)
                 return View(vm);
 
-            var product = new Product
+            var product = new CreateProductDto
             {
                 Name = vm.Name,
                 Price = vm.Price,
@@ -83,7 +83,7 @@ namespace firmness.Controllers
             if (!ModelState.IsValid)
                 return View(vm);
 
-            var product = new Product
+            var product = new UpdateProductDto
             {
                 Id = vm.Id,
                 Name = vm.Name,
