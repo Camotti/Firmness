@@ -76,7 +76,7 @@ namespace firmness.Controllers
                 ClientId = vm.ClientId,
                 EmployeeId = vm.EmployeeId,
                 SaleDate  = DateTime.UtcNow,
-                Details = vm.Details.Select(d => new SaleDetailDto()
+                Details = vm.Details.Select(d => new CreateSaleDetailDto()
                 {
                     ProductId = d.ProductId,
                     Quantity = d.Quantity,

@@ -21,6 +21,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\firmness.Infrastructure\firmness.Infrastructure.csproj" />
+      <ProjectReference Include="..\firmness.Application\firmness.Application.csproj" />
     </ItemGroup>
 
 </Project>

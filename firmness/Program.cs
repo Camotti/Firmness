@@ -35,7 +35,7 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
 
 // 3️⃣ Razor Pages
 builder.Services.AddRazorPages();
-
+builder.Services.AddAutoMapper(cfg => { }, AppDomain.CurrentDomain.GetAssemblies());
 // generate pdfs
 builder.Services.AddScoped<PdfService>();
 
@@ -60,7 +60,7 @@ builder.Services.AddScoped<ISalesService, SalesService>();
 var app = builder.Build();
 
 //registar autoMapper
-builder.Services.AddAutoMapper(cfg => { }, AppDomain.CurrentDomain.GetAssemblies());
+
 
 
 // Configuración del pipeline HTTP hola people

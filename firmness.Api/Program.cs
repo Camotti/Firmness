@@ -21,7 +21,7 @@ builder.Services.AddSwaggerGen();
 // 3️⃣ Database (PostgreSQL)
 builder.Services.AddDbContext<ApplicationDbContext>(options => 
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
-
+builder.Services.AddAutoMapper(cfg => { }, AppDomain.CurrentDomain.GetAssemblies());
 // 4️⃣ Repositories y Services
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductService, ProductService>();
@@ -84,6 +84,8 @@ builder.Services.AddCors(options =>
 
 // 9️⃣ Build App
 var app = builder.Build();
+
+
 
 // 🔟 Middleware Pipeline
 if (app.Environment.IsDevelopment())
