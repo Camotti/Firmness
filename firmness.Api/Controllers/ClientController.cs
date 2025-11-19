@@ -1,0 +1,69 @@
+using firmness.Application.DTOs;
+using firmness.Application.Interfaces;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
+
+namespace firmness.Api.Controllers;
+
+
+    [ApiController]
+    [Route("[controller]")]
+public class ClientController : ControllerBase
+{
+    private readonly IClientService _clientService;
+
+    public ClientController(IClientService clientService)
+    {
+        _clientService = clientService;
+    }
+    
+    //Get api of CLient 
+    [HttpGet]
+    public async Task<IActionResult> GetAll()
+    {
+        var clients = await _clientService.GetAllAsync();
+        return Ok(clients);
+    }
+    
+    //Post api / client 
+    [HttpPost]
+    public async Task<IActionResult> Create([FromBody] CreateClientDto dto)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+
+        var result = await _clientService.CreateAsync(dto);
+
+        if (!result.Success)
+            return BadRequest(result.Message);
+
+        return Ok(result);
+    }
+
+    [HttpPut]
+    public async Task<IActionResult> Update([FromBody] UpdateClientDto dto)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+
+        var result = await _clientService.UpdateAsync(dto);
+
+        if (!result.Success)
+            return BadRequest(result.Message);
+
+        return Ok(result.Message);
+    }
+    
+    //Delete api clients by ID 
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Delete(int id)
+    {
+        var result = await _clientService.DeleteAsync(id);
+
+        if (!result.Success)
+            return NotFound(result.Message);
+
+        return Ok(result.Message);
+    }
+    
+}
