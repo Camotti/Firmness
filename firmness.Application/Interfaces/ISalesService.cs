@@ -1,17 +1,18 @@
+using firmness.Application.DTOs;
 using firmness.Domain.Entities;
 
 namespace firmness.Application.Interfaces;
 
 public interface ISalesService
 {
-    Task<List<Sale>> GetAllSalesAsync();
-    Task<Sale?> GetSaleByIdAsync(int id);
-    Task<bool> CreateSaleAsync(Sale sale);
-    Task<bool> UpdateSaleAsync(Sale sale);
+    Task<List<SaleDto>> GetAllSalesAsync();
+    Task<SaleDto?> GetSaleByIdAsync(int id);
+    Task<bool> CreateSaleAsync(CreateSaleDto saleDto);
+    Task<bool> UpdateSaleAsync(UpdateSaleDto saleDto);
     Task<bool> DeleteSaleAsync(int id);
     
     //listas formularios de ventas
-    Task<List<Client>> GetClientsAsync();
-    Task<List<Employee>> GetEmployeesAsync();
-    Task<List<Product>> GetProductsAsync();
+    Task<List<ClientDto>> GetClientsAsync();
+    Task<List<EmployeeDto>> GetEmployeesAsync();
+    Task<List<ProductDto>> GetProductsAsync();
 }

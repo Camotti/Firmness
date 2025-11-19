@@ -11,4 +11,6 @@ public interface ISalesRepository
     Task<List<Client>> GetClientsAsync();
     Task<List<Employee>> GetEmployeesAsync();
     Task<List<Product>> GetProductsAsync();
+    
+    Task SaveAsync();
 }
