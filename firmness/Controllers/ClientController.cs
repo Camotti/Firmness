@@ -29,7 +29,7 @@ public class ClientController: Controller
         if (!ModelState.IsValid)
             return View(model);
 
-        var dto = new ClientDto
+        var dto = new CreateClientDto()
         {
             Name = model.Name,
             LastName = model.LastName,
@@ -39,16 +39,7 @@ public class ClientController: Controller
             Address = model.Address
         };
 
-        var result = await _clientService.CreateAsync(new Domain.Entities.Client
-        {
-            Name = dto.Name,
-            LastName = dto.LastName,
-            Email = dto.Email,
-            Phone = dto.Phone,
-            Document = dto.Document,
-            Address = dto.Address
-        });
-
+        var result = await _clientService.CreateAsync(dto);
         if (!result.Success)
         {
             ModelState.AddModelError("", result.Message);
@@ -81,7 +72,7 @@ public class ClientController: Controller
     {
         if (!ModelState.IsValid) 
             return View(model);
-        var entity = new Domain.Entities.Client
+        var dto = new UpdateClientDto()
         {
             Id = id,
             Name = model.Name,
@@ -91,7 +82,7 @@ public class ClientController: Controller
             Document = model.Document,
             Address = model.Address
         };
-        var result = await _clientService.UpdateAsync(entity);
+        var result = await _clientService.UpdateAsync(dto);
         if (!result.Success)
         {
             ModelState.AddModelError("", result.Message);

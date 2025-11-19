@@ -6,5 +6,5 @@ public class CreateSaleDto
     public int ClientId { get; set; }
     public int EmployeeId { get; set; }
 
-    public List<CreateSaleDetailDto> Details { get; set; } = new();
+    public List<SaleDetailDto> Details { get; set; } = new();
 }

@@ -1,3 +1,4 @@
+using firmness.Application.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using firmness.Application.Interfaces;
 using firmness.ViewModels;
@@ -70,12 +71,12 @@ namespace firmness.Controllers
                 return await ReloadData(vm);
             }
 
-            var sale = new Sale
+            var sale = new CreateSaleDto()
             {
                 ClientId = vm.ClientId,
                 EmployeeId = vm.EmployeeId,
-                Date = DateTime.UtcNow,
-                SaleDetails = vm.Details.Select(d => new SaleDetail
+                SaleDate  = DateTime.UtcNow,
+                Details = vm.Details.Select(d => new SaleDetailDto()
                 {
                     ProductId = d.ProductId,
                     Quantity = d.Quantity,
@@ -115,7 +116,7 @@ namespace firmness.Controllers
                     .Select(p => new SelectListItem { Value = p.Id.ToString(), Text = p.Name })
                     .ToList(),
 
-                Details = sale.SaleDetails.Select(d => new SaleDetailViewModel
+                Details = vm.Details.Select(d => new SaleDetailDto()
                 {
                     ProductId = d.ProductId,
                     Quantity = d.Quantity,
