@@ -30,7 +30,7 @@ namespace firmness.Application.Services
             try
             {
                 if (string.IsNullOrWhiteSpace(clientDto.Name) || string.IsNullOrWhiteSpace(clientDto.Document))
-                    return (false, "El nombre y el documento son obligatorios.");
+                    return (false, "The name and the Document fields must not be empty.");
 
                 if (!string.IsNullOrWhiteSpace(clientDto.Email) && !clientDto.Email.Contains("@"))
                     return (false, "El correo electrónico no es válido.");
