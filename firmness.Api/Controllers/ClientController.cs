@@ -2,12 +2,14 @@ using firmness.Application.DTOs;
 using firmness.Application.Interfaces;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+
 
 namespace firmness.Api.Controllers;
 
 
     [ApiController]
-    [Route("[controller]")]
+    [Route ("api/[controller]")]
 public class ClientController : ControllerBase
 {
     private readonly IClientService _clientService;
@@ -18,6 +20,7 @@ public class ClientController : ControllerBase
     }
     
     //Get api of CLient 
+    [Authorize(Roles = "Admin")]
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
@@ -26,6 +29,7 @@ public class ClientController : ControllerBase
     }
     
     //Post api / client 
+    [Authorize(Roles = "Admin")]
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] CreateClientDto dto)
     {
@@ -39,7 +43,8 @@ public class ClientController : ControllerBase
 
         return Ok(result);
     }
-
+    
+    [Authorize(Roles = "Admin")]
     [HttpPut]
     public async Task<IActionResult> Update([FromBody] UpdateClientDto dto)
     {
@@ -55,6 +60,7 @@ public class ClientController : ControllerBase
     }
     
     //Delete api clients by ID 
+    [Authorize(Roles = "Admin")]
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
     {

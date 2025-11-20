@@ -1,13 +1,15 @@
 using firmness.Application.DTOs;
 using firmness.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace firmness.Api.Controllers
 {
+    
     [ApiController]
     [Route("api/[controller]")]
     
-    public class SalesController : Controller
+    public class SalesController : ControllerBase
     {
         private readonly ISalesService _saleService;
 
@@ -18,6 +20,7 @@ namespace firmness.Api.Controllers
         
         
         //Get esta es la APi 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -26,7 +29,9 @@ namespace firmness.Api.Controllers
 
         }
         
-        // Get Sales by Id 
+        
+        // Get Sales by Id
+        [Authorize(Roles = "Admin")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
@@ -39,6 +44,7 @@ namespace firmness.Api.Controllers
         }
         
         //POST: API Sales
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateSaleDto dto)
         {
@@ -52,6 +58,7 @@ namespace firmness.Api.Controllers
         }
         
         //Put: api / sales by Id
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
 
         public async Task<IActionResult> Update(int id, [FromBody] UpdateSaleDto dto)
@@ -66,7 +73,8 @@ namespace firmness.Api.Controllers
             return Ok("Sale Updated successfully");
         }
         
-        //Delete api / sales / clients 
+        //Delete api / sales / clients
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
@@ -77,6 +85,7 @@ namespace firmness.Api.Controllers
         }
         
         //Get: api sales clients 
+        [Authorize(Roles = "Admin")]
         [HttpGet("clients")]
         public async Task<IActionResult> GetClients()
         {
@@ -84,7 +93,8 @@ namespace firmness.Api.Controllers
             return Ok(clients);
         }
         
-        // GEt : api sales employees 
+        // GEt : api sales employees
+        [Authorize(Roles = "Admin")]
         [HttpGet("employees")]
         public async Task<IActionResult> GetEmployees()
         {
@@ -93,6 +103,7 @@ namespace firmness.Api.Controllers
         }
         
         // GEt: api/sales products 
+        [Authorize(Roles = "Admin")]
         [HttpGet("products")]
         public async Task<IActionResult> GetProducts()
         {

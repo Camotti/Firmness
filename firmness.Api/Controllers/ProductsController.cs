@@ -1,6 +1,7 @@
 using firmness.Application.DTOs;
 using firmness.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace firmness.Api.Controllers
 
@@ -18,6 +19,7 @@ namespace firmness.Api.Controllers
         }
         
         //Get All 
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> GetAllAsync()
         {
@@ -26,7 +28,7 @@ namespace firmness.Api.Controllers
         }
 
         /// Create
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateProductDto dto)
         {
@@ -38,6 +40,7 @@ namespace firmness.Api.Controllers
         }
             
         // UPDATE
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] UpdateProductDto dto)
         {
@@ -52,6 +55,7 @@ namespace firmness.Api.Controllers
         }
         
         //Delete 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
