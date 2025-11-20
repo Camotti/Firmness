@@ -75,6 +75,16 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
+// 7️⃣ Authorization Policies 
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("AdminPolicy", policy =>
+        policy.RequireRole("Admin"));
+    
+    options.AddPolicy("ClientPolicy", policy =>
+        policy.RequireRole("Client"));
+});
+
 
 // 8️⃣ CORS
 builder.Services.AddCors(options =>
@@ -89,9 +99,11 @@ builder.Services.AddCors(options =>
 // 9️⃣ Build App
 var app = builder.Build();
 
+// 🔟 Crear roles ANTES de configurar el pipeline
+await CreateRolesAsync(app); 
 
 
-// 🔟 Middleware Pipeline
+// 1️⃣1️⃣  Middleware Pipeline
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -104,4 +116,21 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 
+
 app.Run();
+
+async Task CreateRolesAsync(WebApplication app)
+{
+    using var scope = app.Services.CreateScope();
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+    string[] roles = { "Admin", "Client" };
+
+    foreach (var role in roles)
+    {
+        if (!await roleManager.RoleExistsAsync(role))
+        {
+            await roleManager.CreateAsync(new IdentityRole(role));
+        }
+    }
+}

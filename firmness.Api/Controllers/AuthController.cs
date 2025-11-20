@@ -67,4 +67,30 @@ public class AuthController : ControllerBase
             roles = roles
         });
     }
+
+    [HttpPost("register")]
+    public async Task<IActionResult> Register(string email, string password)
+    {
+        var existingUser = await _userManager.FindByEmailAsync(email);
+        if (existingUser != null)
+            return BadRequest("The user ready exists");
+
+        var user = new ApplicationUser
+        {
+            Email = email,
+            UserName = email,
+
+        };
+
+        var result = await _userManager.CreateAsync(user, password);
+        if (!result.Succeeded)
+            return BadRequest(result.Errors);
+        
+        // esta linea muestra el rol del "cliente" existe 
+        var role = "Client";
+        if (!await _userManager.IsInRoleAsync(user, role))
+            await _userManager.AddToRoleAsync(user, role);
+        return Ok("Client registered successfully");
+
+    }
 }
