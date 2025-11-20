@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer; 
 using Microsoft.IdentityModel.Tokens;                 
 using firmness.Domain.Entities;
+using firmness.Infrastructure.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,6 +35,9 @@ builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 
 builder.Services.AddScoped<ISalesRepository, SalesRepository>();
 builder.Services.AddScoped<ISalesService, SalesService>();
+
+//Email service 
+builder.Services.AddScoped<IEmailService, EmailService>();
 
 // 5️⃣ Identity (Usuarios y Roles)
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
