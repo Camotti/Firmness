@@ -27,6 +27,7 @@
     <ProjectReference Include="..\firmness.Application\firmness.Application.csproj" />
     <ProjectReference Include="..\firmness.Domain\firmness.Domain.csproj" />
     <ProjectReference Include="..\firmness.Infrastructure\firmness.Infrastructure.csproj" />
+    <ProjectReference Include="..\firmness.Api\firmness.Api.csproj" />
   </ItemGroup>
 
 </Project>

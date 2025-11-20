@@ -46,7 +46,7 @@ public class ClientController : ControllerBase
     
     [Authorize(Roles = "Admin")]
     [HttpPut("{id}")]
-    public async Task<IActionResult> Update([FromBody] UpdateClientDto dto)
+    public async Task<IActionResult> Update(int id,[FromBody] UpdateClientDto dto)
     {
         if (id != dto.Id)  // 
             return BadRequest("The Id in the URL doesn't match the DTO");
