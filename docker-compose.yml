@@ -1,36 +1,12 @@
-version: '3.9'
+version: "3.9"
 
 services:
-  #  Servicio de base de datos PostgreSQL
-  postgres:
-    image: postgres:16
-    container_name: firmness_db
-    restart: always
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: miClaveSegura2025
-      POSTGRES_DB: firmnessdb
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-
-  # Servicio de la aplicación ASP.NET
-  web:
+  api:
     build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: firmness_web
-    restart: always
+      context: .  
+      dockerfile: firmness.Api/Dockerfile
     ports:
       - "8080:8080"
-    depends_on:
-      - postgres
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__DefaultConnection=Host=postgres;Port=5432;Database=firmnessdb;Username=postgres;Password=miClaveSegura2025
-    volumes:
-      - .:/app
-
-volumes:
-  postgres_data:
+      ASPNETCORE_ENVIRONMENT: "Production"
+      ConnectionStrings__DefaultConnection: "${CONNECTION_STRING}"

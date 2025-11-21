@@ -1,23 +1,24 @@
-﻿FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
-USER $APP_UID
-WORKDIR /app
-EXPOSE 8080
-EXPOSE 8081
-
+﻿# 1️⃣ Build stage
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["firmness.Api/firmness.Api.csproj", "firmness.Api/"]
-RUN dotnet restore "firmness.Api/firmness.Api.csproj"
-COPY . .
-WORKDIR "/src/firmness.Api"
-RUN dotnet build "./firmness.Api.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
-FROM build AS publish
-ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./firmness.Api.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+# Copiar solo los proyectos necesarios
+COPY ../firmness.Domain/ firmness.Domain/
+COPY ../firmness.Application/ firmness.Application/
+COPY ../firmness.Infrastructure/ firmness.Infrastructure/
+COPY ../firmness.Api/ firmness.Api/
+COPY ../firmness.sln .
 
-FROM base AS final
+# Restaurar solo los proyectos que sí existen
+RUN dotnet restore firmness.Api/firmness.Api.csproj
+
+# Build y publish solo la API
+WORKDIR /src/firmness.Api
+RUN dotnet publish "firmness.Api.csproj" -c Release -o /app/publish /p:UseAppHost=false
+
+# 2️⃣ Runtime stage
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
 WORKDIR /app
-COPY --from=publish /app/publish .
+COPY --from=build /app/publish .
+EXPOSE 8080
 ENTRYPOINT ["dotnet", "firmness.Api.dll"]
