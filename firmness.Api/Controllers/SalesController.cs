@@ -38,15 +38,15 @@ namespace firmness.Api.Controllers
             var sale = await _saleService.GetSaleByIdAsync(id);
             
             if (sale == null)
-                return NotFound($"Salewith {id} not found");
+                return NotFound($"Sale with {id} not found");
 
             return Ok(sale);
         }
         
         //POST: API Sales
-        [Authorize(Roles = "Admin")]
-        [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CreateSaleDto dto)
+        [Authorize(Roles = "client")]
+        [HttpPost("purchase")]
+        public async Task<IActionResult> Purchase([FromBody] CreateSaleDto dto)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
