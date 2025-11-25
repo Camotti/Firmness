@@ -1,30 +1,43 @@
-import {useState} from "react";
-import {loginRequest} from "../api/auth";
-import {useNavigate} from "react-router-dom";
+import { useState } from "react";
+import { registerRequest } from "../api/auth.js";
+import { useNavigate } from "react-router-dom";
 
-export default function Login(){
+export default function Register() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
-    
-    const handleSubmit = async (error) => {
-        error.preventDefault();
-        
-        const {data} = await loginRequest(email, password)
-        localStorage.setItem("token", data.token);
-        navigate("/products"); // redirige a products despues de login 
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        try {
+            await registerRequest(email, password);
+            alert("User created successfully");
+            navigate("/"); // redirige al login
+        } catch (error) {
+            alert("Registration failed");
+        }
     };
-    
+
     return (
         <form onSubmit={handleSubmit}>
-            <h2>Login</h2>
+            <h2>Register</h2>
+
             <input
-            type="email"
-            placeholder="Email"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+                type="email"
+                placeholder="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
             />
-            <button>login</button>
+
+            <input
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+            />
+
+            <button type="submit">Register</button>
         </form>
     );
 }
