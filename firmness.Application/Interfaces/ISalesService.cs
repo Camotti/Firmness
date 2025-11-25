@@ -10,6 +10,7 @@ public interface ISalesService
     Task<bool> CreateSaleAsync(CreateSaleDto saleDto);
     Task<bool> UpdateSaleAsync(UpdateSaleDto saleDto);
     Task<bool> DeleteSaleAsync(int id);
+    Task<bool> SendReceiptAsync(SendReceiptDto dto);
     
     //listas formularios de ventas
     Task<List<ClientDto>> GetClientsAsync();

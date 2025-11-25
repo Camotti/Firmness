@@ -12,11 +12,13 @@ namespace firmness.Application.Services
     {
         private readonly ISalesRepository _salesRepo;
         private readonly IMapper _mapper;
+        private readonly IEmailService _emailService;
 
-        public SalesService(ISalesRepository salesRepo, IMapper mapper)
+        public SalesService(ISalesRepository salesRepo, IMapper mapper, IEmailService emailService)
         {
             _salesRepo = salesRepo;
             _mapper = mapper;
+            _emailService = _emailService;
         }
 
         public async Task<List<SaleDto>> GetAllSalesAsync()
@@ -114,5 +116,30 @@ namespace firmness.Application.Services
             var products = await _salesRepo.GetProductsAsync();
             return _mapper.Map<List<ProductDto>>(products);
         }
+
+        public async Task<bool> SendReceiptAsync(SendReceiptDto dto)
+        {
+            var sale = await _salesRepo.GetByIdAsync(dto.SaleId);
+            if (sale == null)
+                return false;
+            
+            // construct receipt content 
+            string body = $@"
+                <h2>Purchase Receipt</h2>
+                <p>Sale ID: {sale.SaleId}</p>
+                <p>Client ID: {sale.ClientId}</p>
+                <p>Employee ID: {sale.EmployeeId}</p>
+                <h3>Products:</h3>
+                ";
+
+            foreach (var detail in sale.SaleDetails)
+            {
+                body += $"<p>{detail.ProductId} * {detail.Quantity} - {detail.UnitPrice}</p>";
+            }
+
+            await _emailService.SendEmailAsync(dto.Email, "your Purchase Receipt", body);
+            return true;
+        }
     }
+    
 }
