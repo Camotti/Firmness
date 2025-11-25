@@ -1,14 +1,17 @@
 import api from "../api/axiosInstance";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useCart } from "../context/CartContext";
 
 export default function Products() {
     const [products, setProducts] = useState([]);
     const navigate = useNavigate();
+    const { addToCart } = useCart();
 
     useEffect(() => {
         const token = localStorage.getItem("token");
 
+        // Si no hay token → redirigir al login
         if (!token) {
             navigate("/");
             return;
@@ -23,9 +26,8 @@ export default function Products() {
                 setProducts(res.data);
             })
             .catch(err => {
-                console.log(err);
-
                 if (err.response?.status === 401) {
+                    // Token inválido → limpiar y volver a login
                     localStorage.removeItem("token");
                     navigate("/");
                 }
@@ -38,7 +40,8 @@ export default function Products() {
 
             {products.map(prod => (
                 <div key={prod.id}>
-                    <strong>{prod.name}</strong> – ${prod.price}
+                    <strong>{prod.name}</strong>  ${prod.price}
+                    <button onClick={() => addToCart(prod)}>Add to cart</button>
                 </div>
             ))}
         </>

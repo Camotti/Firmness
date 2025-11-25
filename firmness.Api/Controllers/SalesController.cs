@@ -57,6 +57,20 @@ namespace firmness.Api.Controllers
             return Ok("Sale created successfully");
         }
         
+        //POST : api/sales/send-receipt
+        [Authorize(Roles = "client")]
+        [HttpPost("send-receipt")]
+        public async Task<IActionResult> SendReceipt([FromBody] SendReceiptDto dto)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            var success = await _saleService.SendReceiptAsync(dto);
+            if (!success)
+                return BadRequest("Could not send receipt");
+            return Ok("Receipt sent successfully");
+        }
+        
+        
         //Put: api / sales by Id
         [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]

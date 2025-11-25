@@ -12,9 +12,18 @@ export function CartProvider({children}) {
         });
     };
     
-    const carTotals = () => {
+    const cartTotals = () => {
+        const subtotal = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
+        const tax = subtotal * 0.19;
+        const total = subtotal + tax;
         
-    }
+        return {subtotal, tax, total};
+    };
     
+    return (
+        <CartContext.Provider value={{cart, addToCart, cartTotals}}>
+            {children}
+        </CartContext.Provider>
+    );
     
 }
