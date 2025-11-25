@@ -11,6 +11,20 @@ export default function Login(){
         error.preventDefault();
         
         const {data} = await loginRequest(email, password)
-    }
+        localStorage.setItem("token", data.token);
+        navigate("/products"); // redirige a products despues de login 
+    };
     
-};
+    return (
+        <form onSubmit={handleSubmit}>
+            <h2>Login</h2>
+            <input
+            type="email"
+            placeholder="Email"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            />
+            <button>login</button>
+        </form>
+    );
+}
