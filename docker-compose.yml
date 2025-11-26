@@ -2,11 +2,49 @@ version: "3.9"
 
 services:
   api:
+    container_name: firmness-api
     build:
-      context: .  
+      context: .
       dockerfile: firmness.Api/Dockerfile
     ports:
       - "8080:8080"
+    depends_on:
+      - db
     environment:
-      ASPNETCORE_ENVIRONMENT: "Production"
-      ConnectionStrings__DefaultConnection: "${CONNECTION_STRING}"
+      ASPNETCORE_URLS: "http://+:8080"
+      ConnectionStrings__DefaultConnection: "Host=db;Database=firmness;Username=postgres;Password=postgres"
+    networks:
+      - firmness-net
+
+  front:
+    container_name: firmness-front
+    build:
+      context: ./firmness.Client
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    depends_on:
+      - api
+    networks:
+      - firmness-net
+  
+  db:
+    container_name: firmness-db
+    image: postgres:16
+    restart: always
+    environment:
+      POSTGRES_DB: firmness
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - firmness-net
+
+networks:
+  firmness-net:
+
+volumes:
+  pgdata:
