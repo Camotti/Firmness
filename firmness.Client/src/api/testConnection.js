@@ -1,4 +1,4 @@
-import api from "./axiosConfig.js";
+import api from "./axiosInstance.js";
 
 export async function testConnection(){
     try {
