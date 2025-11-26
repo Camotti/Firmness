@@ -1,5 +1,5 @@
-using System.Net;
-using System.Net.Mail;
+using MailKit.Net.Smtp;
+using MimeKit;
 using firmness.Application.Interfaces;
 using Microsoft.Extensions.Configuration;
 
@@ -16,24 +16,28 @@ public class EmailService : IEmailService
 
     public async Task SendEmailAsync(string to, string subject, string body)
     {
-        var email = _configuration["EmailSettings:Email"];
+        var smtpServer = _configuration["EmailSettings:SmtpServer"];
+        var port = int.Parse(_configuration["EmailSettings:Port"]);
+        var senderName = _configuration["EmailSettings:SenderName"];
+        var senderEmail = _configuration["EmailSettings:SenderEmail"];
         var password = _configuration["EmailSettings:Password"];
 
-        using var smtp = new SmtpClient("smtp.gmail.com")
+        var message = new MimeMessage();
+        message.From.Add(new MailboxAddress(senderName, senderEmail));
+        message.To.Add(new MailboxAddress("", to));
+        message.Subject = subject;
+
+        var builder = new BodyBuilder
         {
-            Port = 587,
-            Credentials = new NetworkCredential(email, password),
-            EnableSsl = true
+            HtmlBody = body
         };
 
-        var message = new MailMessage
-        {
-            From = new MailAddress(email),
-            Subject = subject,
-            Body = body,
-            IsBodyHtml = true
-        };
-        message.To.Add(to);
-        await smtp.SendMailAsync(message);
+        message.Body = builder.ToMessageBody();
+
+        using var smtp = new SmtpClient();
+        await smtp.ConnectAsync(smtpServer, port, MailKit.Security.SecureSocketOptions.StartTls);
+        await smtp.AuthenticateAsync(senderEmail, password);
+        await smtp.SendAsync(message);
+        await smtp.DisconnectAsync(true);
     }
 }
