@@ -7,8 +7,7 @@ using firmness.Domain.Entities;
 
 namespace firmness.Tests.Services
 {
-    internal class ProductTest
-    {
+    
         public class ProductTests
         {
             [Fact]
@@ -27,5 +26,5 @@ namespace firmness.Tests.Services
                 Assert.True(product.Stock >= 0, "Product stock cannot be negative");
             }
         }
-    }
+    
 }
