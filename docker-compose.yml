@@ -1,6 +1,15 @@
 version: "3.9"
 
 services:
+  tests:
+    container_name: firmness-tests
+    build:
+      context: .
+      dockerfile: firmness.Tests/Dockerfile
+    command: ["dotnet", "test", "--logger:trx"]
+    networks:
+      - firmness-net
+
   api:
     container_name: firmness-api
     build:
@@ -9,7 +18,10 @@ services:
     ports:
       - "8080:8080"
     depends_on:
-      - db
+      tests:
+        condition: service_completed_successfully
+      db:
+        condition: service_started
     environment:
       ASPNETCORE_URLS: "http://+:8080"
       ConnectionStrings__DefaultConnection: "Host=db;Database=firmness;Username=postgres;Password=postgres"
@@ -22,12 +34,13 @@ services:
       context: ./firmness.Client
       dockerfile: Dockerfile
     ports:
-      - "80:80"
+      - "3000:80"
     depends_on:
-      - api
+      api:
+        condition: service_started
     networks:
       - firmness-net
-  
+
   db:
     container_name: firmness-db
     image: postgres:16
@@ -37,7 +50,7 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     ports:
-      - "5432:5432"
+      - "5444:5444"
     volumes:
       - pgdata:/var/lib/postgresql/data
     networks:

@@ -124,6 +124,11 @@ builder.Services.AddCors(options =>
 
 // 9️⃣ Build App
 var app = builder.Build();
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    db.Database.Migrate();
+}
 
 // 🔟 Crear roles ANTES de configurar el pipeline
 await CreateRolesAsync(app); 
@@ -141,6 +146,7 @@ app.UseCors("AllowAll");
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
+
 
 
 app.Run();

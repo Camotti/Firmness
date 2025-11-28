@@ -8,6 +8,7 @@
 
     <IsPackable>false</IsPackable>
     <IsTestProject>true</IsTestProject>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
 	  
   </PropertyGroup>
 
@@ -29,6 +30,12 @@
     <ProjectReference Include="..\firmness.Domain\firmness.Domain.csproj" />
     <ProjectReference Include="..\firmness.Infrastructure\firmness.Infrastructure.csproj" />
     <ProjectReference Include="..\firmness.Api\firmness.Api.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="..\.dockerignore">
+      <Link>.dockerignore</Link>
+    </Content>
   </ItemGroup>
 
 </Project>

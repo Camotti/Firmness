@@ -21,9 +21,9 @@ namespace firmness.Tests.Services
             [Fact]
             public void Product_Stock_ShouldNotBeNegative()
             {
-                var product = new Product { Stock = -5 };
+                
 
-                Assert.True(product.Stock >= 0, "Product stock cannot be negative");
+                Assert.Throws<ArgumentException>(() => new Product { Stock = -5 });
             }
         }
     

@@ -5,6 +5,8 @@ namespace firmness.Domain.Entities
 {
     public class Product
     {
+        private int _stock;
+
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
@@ -15,14 +17,19 @@ namespace firmness.Domain.Entities
         [Range(0, double.MaxValue, ErrorMessage = "El precio debe ser un número válido.")]
         public decimal Price { get; set; }
 
+        public int Stock
+        {
+            get => _stock;
+            set
+            {
+                if (value < 0)
+                    throw new ArgumentException("Product stock cannot be negative");
 
-        [Range(0, int.MaxValue, ErrorMessage = "El stock debe ser un número entero positivo.")]
-        public int Stock { get; set; }
-
+                _stock = value;
+            }
+        }
 
         public string? Description { get; set; }
-
-        //esta es la relacion con SaleDetail
         public ICollection<SaleDetail>? SaleDetails { get; set; }
     }
 }
