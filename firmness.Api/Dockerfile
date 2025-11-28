@@ -9,7 +9,7 @@ COPY firmness.Application/firmness.Application.csproj firmness.Application/
 COPY firmness.Domain/firmness.Domain.csproj firmness.Domain/
 COPY firmness.Infrastructure/firmness.Infrastructure.csproj firmness.Infrastructure/
 
-# Restaurar dependencias de la solución
+# Restaurar dependencias de la solución .
 RUN dotnet restore firmness.Api/firmness.Api.csproj
 
 # Copiar el resto del código

@@ -10,7 +10,7 @@ COPY . .
 # 4️⃣ Restaurar dependencias
 RUN dotnet restore
 
-# 5️⃣ Construir solo el proyecto de tests
+# 5️⃣ Construir solo el proyecto de tests .
 RUN dotnet build firmness.Tests/firmness.Tests.csproj --configuration Release
 
 # 6️⃣ Ejecutar las pruebas del proyecto de tests
