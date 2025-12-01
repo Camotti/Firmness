@@ -36,7 +36,8 @@ public class EmailService : IEmailService
 
         using var smtp = new SmtpClient();
         await smtp.ConnectAsync(smtpServer, port, MailKit.Security.SecureSocketOptions.StartTls);
-        await smtp.AuthenticateAsync(senderEmail, password);
+        var userName= _configuration["EmailSettings:UserName"];
+        await smtp.AuthenticateAsync(userName, password);
         await smtp.SendAsync(message);
         await smtp.DisconnectAsync(true);
     }

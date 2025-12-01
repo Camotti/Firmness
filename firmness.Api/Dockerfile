@@ -23,5 +23,6 @@ RUN dotnet publish -c Release -o /app/publish --no-restore /p:UseAppHost=false /
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
 WORKDIR /app
 COPY --from=build /app/publish .
+COPY firmness.Api/appsettings.json .
 EXPOSE 8080
 ENTRYPOINT ["dotnet", "firmness.Api.dll"]

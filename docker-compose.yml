@@ -25,6 +25,13 @@ services:
     environment:
       ASPNETCORE_URLS: "http://+:8080"
       ConnectionStrings__DefaultConnection: "Host=db;Database=firmness;Username=postgres;Password=postgres"
+      
+      EmailSettings__SmtpServer: "smtp.gmail.com"
+      EmailSettings__Port: "587"
+      EmailSettings__SenderName: "Firmness App"
+      EmailSettings__SenderEmail: "camiropi97@gmail.com"
+      EmailSettings__UserName: "camiropi97@gmail.com"
+      EmailSettings__Password: "dhif xzlp syrn hnez"
     networks:
       - firmness-net
 

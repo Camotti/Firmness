@@ -3,12 +3,15 @@ using Microsoft.EntityFrameworkCore;
 using firmness.Infrastructure.Data;
 using firmness.Application.Interfaces;
 using firmness.Application.Services;
+using firmness.Application.Settings;
 using firmness.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer; 
 using Microsoft.IdentityModel.Tokens;                 
 using firmness.Domain.Entities;
 using firmness.Infrastructure.Services;
+
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -63,8 +66,10 @@ builder.Services.AddScoped<ISalesRepository, SalesRepository>();
 builder.Services.AddScoped<ISalesService, SalesService>();
 
 //Email service 
+builder.Services.Configure<EmailSettings>(
+    builder.Configuration.GetSection("EmailSettings"));
 builder.Services.AddScoped<IEmailService, EmailService>();
-
+builder.Services.AddScoped<ISalesService, SalesService>();
 // 5️⃣ Identity (Usuarios y Roles)
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 {
@@ -135,11 +140,11 @@ await CreateRolesAsync(app);
 
 
 // 1️⃣1️⃣  Middleware Pipeline
-if (app.Environment.IsDevelopment())
-{
+
+
     app.UseSwagger();
     app.UseSwaggerUI();
-}
+
 
 app.UseHttpsRedirection();
 app.UseCors("AllowAll");

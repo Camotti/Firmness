@@ -18,7 +18,7 @@ namespace firmness.Application.Services
         {
             _salesRepo = salesRepo;
             _mapper = mapper;
-            _emailService = _emailService;
+            _emailService = emailService;
         }
 
         public async Task<List<SaleDto>> GetAllSalesAsync()
