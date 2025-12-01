@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using OfficeOpenXml;
 using AutoMapper;
+using firmness.Infrastructure.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -46,7 +47,9 @@ builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IClientService, ClientService>();
-builder.Services.AddScoped<IEmployeeService, EmployeeService>();       
+builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+builder.Services.AddScoped<ISalesService, SalesService>(); 
+builder.Services.AddScoped<IEmailService, EmailService>(); 
 
 builder.Services.AddScoped<IFileService, FileService>();
 
