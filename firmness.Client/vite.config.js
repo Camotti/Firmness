@@ -1,13 +1,17 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import tailwindcss from '@tailwindcss/vite'
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react()],
-  
-  test:{
+  plugins: [
+    react(),
+    tailwindcss(),
+  ],
+
+  test: {
     environment: "jsdom", // Simula un navegador
     globals: true, // Permite usar describe(), it(), expect() sin importar
   },
-  
+
 })

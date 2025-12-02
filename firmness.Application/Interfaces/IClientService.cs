@@ -7,6 +7,6 @@ namespace firmness.Application.Interfaces
         Task<(bool Success, string Message)> CreateAsync(CreateClientDto clientDto);
         Task<List<ClientDto>> GetAllAsync();
         Task<(bool Success, string Message)> UpdateAsync(UpdateClientDto clientDto);
-        Task<(bool Success, string Message)> DeleteAsync(int id);
+        Task<(bool Success, string Message)> DeleteAsync(string id);
     }
 }

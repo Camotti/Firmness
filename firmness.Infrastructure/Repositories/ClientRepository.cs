@@ -1,52 +1,119 @@
-﻿using firmness.Infrastructure.Data;
-using firmness.Domain.Entities;
+﻿using firmness.Domain.Entities;
 using firmness.Application.Interfaces.Repositories;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace firmness.Infrastructure.Repositories
 {
     public class ClientRepository : IClientRepository
     {
-        private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public ClientRepository(ApplicationDbContext context)
+        public ClientRepository(UserManager<ApplicationUser> userManager)
         {
-            _context = context;
+            _userManager = userManager;
         }
 
-        // Obtener todos los clientes
-        public async Task<List<Client>> GetAllAsync() =>
-            await _context.Clients.ToListAsync();
+        // Obtener todos los clientes (usuarios con rol "Client")
+        public async Task<List<Client>> GetAllAsync()
+        {
+            var users = await _userManager.Users.ToListAsync();
+            var clients = new List<Client>();
+
+            foreach (var user in users)
+            {
+                var roles = await _userManager.GetRolesAsync(user);
+                if (roles.Contains("Client"))
+                {
+                    clients.Add(new Client
+                    {
+                        Id = int.TryParse(user.Id, out int id) ? id : 0,
+                        Name = user.Name,
+                        LastName = user.LastName,
+                        Email = user.Email,
+                        Phone = user.PhoneNumber,
+                        Document = user.Document,
+                        Address = user.Address
+                    });
+                }
+            }
+
+            return clients;
+        }
 
         // Obtener cliente por ID
-        public async Task<Client?> GetByIdAsync(int id) =>
-            await _context.Clients.FindAsync(id);
+        public async Task<Client?> GetByIdAsync(int id)
+        {
+            var user = await _userManager.FindByIdAsync(id.ToString());
+            if (user == null)
+                return null;
+
+            var roles = await _userManager.GetRolesAsync(user);
+            if (!roles.Contains("Client"))
+                return null;
+
+            return new Client
+            {
+                Id = id,
+                Name = user.Name,
+                LastName = user.LastName,
+                Email = user.Email,
+                Phone = user.PhoneNumber,
+                Document = user.Document,
+                Address = user.Address
+            };
+        }
 
         // Agregar nuevo cliente
         public async Task AddAsync(Client client)
         {
-            await _context.Clients.AddAsync(client);
+            var user = new ApplicationUser
+            {
+                UserName = client.Email,
+                Email = client.Email,
+                Name = client.Name,
+                LastName = client.LastName,
+                PhoneNumber = client.Phone,
+                Document = client.Document,
+                Address = client.Address
+            };
+
+            // Nota: Necesitarás pasar la contraseña desde el servicio
+            // Este método ya no es suficiente, ver cambios en el servicio
         }
 
         // Actualizar cliente existente
         public async Task UpdateAsync(Client client)
         {
-            _context.Clients.Update(client);
-            await Task.CompletedTask;
+            var user = await _userManager.FindByIdAsync(client.Id.ToString());
+            if (user != null)
+            {
+                user.Name = client.Name;
+                user.LastName = client.LastName;
+                user.Email = client.Email;
+                user.UserName = client.Email;
+                user.PhoneNumber = client.Phone;
+                user.Document = client.Document;
+                user.Address = client.Address;
+
+                await _userManager.UpdateAsync(user);
+            }
         }
 
         // Eliminar cliente por ID
         public async Task DeleteAsync(int id)
         {
-            var client = await _context.Clients.FindAsync(id);
-            if (client != null)
+            var user = await _userManager.FindByIdAsync(id.ToString());
+            if (user != null)
             {
-                _context.Clients.Remove(client);
+                await _userManager.DeleteAsync(user);
             }
         }
 
-        // Guardar cambios en la base de datos
-        public async Task SaveAsync() =>
-            await _context.SaveChangesAsync();
+        // Guardar cambios (no necesario con UserManager, pero se mantiene por interfaz)
+        public async Task SaveAsync()
+        {
+            await Task.CompletedTask;
+        }
     }
 }

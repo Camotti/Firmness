@@ -26,7 +26,16 @@ namespace firmness.Infrastructure.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            //  Forzar que todos los DateTime se guarden como UTC
+            // ⭐ Configurar TPT: una tabla por tipo
+            modelBuilder.Entity<Person>()
+                .UseTptMappingStrategy(); // Table Per Type
+            
+            // O configurar cada entidad individualmente:
+            // modelBuilder.Entity<Client>().ToTable("Clients");
+            // modelBuilder.Entity<Employee>().ToTable("Employees");
+            // modelBuilder.Entity<Person>().ToTable("People");
+
+            // Forzar que todos los DateTime se guarden como UTC
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())
             {
                 foreach (var property in entityType.GetProperties())

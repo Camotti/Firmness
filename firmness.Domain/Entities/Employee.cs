@@ -1,15 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using firmness.Domain.Models;
-namespace firmness.Domain.Entities
-{
-    public class Employee : Person 
-    {
-        
-        [Required(ErrorMessage = "El rol es obligatorio.")]
-        public string? Role { get; set; } //vendedor o manager
 
-        [Range(0, 10000000, ErrorMessage = "El salario debe ser un número positivo.")]
-        [DataType(DataType.Currency)]
-        public decimal? Salary { get; set; }
-    }
+public class Employee : Person
+{
+    [Required, StringLength(100)]
+    public string? Position { get; set; }
+
+    [Required]
+    [Column(TypeName = "decimal(18,2)")]
+    public decimal? Salary { get; set; }
 }
