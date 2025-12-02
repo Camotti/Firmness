@@ -18,7 +18,7 @@ public class ClientControllerTests
             .Setup(s => s.GetAllAsync())
             .ReturnsAsync(new List<ClientDto>
             {
-                new ClientDto { Id = 1, Name = "Kratos" }
+                new ClientDto { Id = "1", Name = "Kratos" }
             });
 
         var controller = new ClientController(mockService.Object);

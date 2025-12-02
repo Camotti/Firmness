@@ -4,7 +4,7 @@ using firmness.Api.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 
-namespace firmness.Tests.Controllers;
+namespace firmness.Tests.Services;
 
 public class ProductsControllerTests
 {

@@ -1,12 +1,16 @@
+// csharp
 using System.Threading.Tasks;
 using firmness.Api.Controllers;
+using firmness.Application.DTOs;
 using firmness.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Moq;
+using Xunit;
+using RegisterRequest = firmness.Api.Controllers.RegisterRequest;
 
-namespace firmness.Tests.Controllers;
+namespace firmness.Tests.Services;
 
 public class AuthControllerTests
 {
@@ -36,7 +40,8 @@ public class AuthControllerTests
 
         var controller = new AuthController(userManager.Object, MockSignInManager(userManager).Object, new ConfigurationBuilder().Build());
 
-        var result = await controller.Login("email@test.com", "123");
+        var loginDto = new AuthController.LoginRequest { Email = "email@test.com", Password = "123" };
+        var result = await controller.Login(loginDto);
 
         Assert.IsType<UnauthorizedObjectResult>(result);
     }
@@ -50,7 +55,8 @@ public class AuthControllerTests
 
         var controller = new AuthController(userManager.Object, MockSignInManager(userManager).Object, new ConfigurationBuilder().Build());
 
-        var result = await controller.Register("test@gmail.com", "pass");
+        var registerDto = new RegisterRequest { Email = "test@gmail.com", Password = "pass" };
+        var result = await controller.Register(registerDto);
 
         Assert.IsType<BadRequestObjectResult>(result);
     }
