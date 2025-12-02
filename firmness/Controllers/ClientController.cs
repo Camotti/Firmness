@@ -1,8 +1,8 @@
+
 using firmness.Application.DTOs;
 using firmness.Application.Interfaces;
 using firmness.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using firmness.Application.DTOs;
 
 namespace firmness.Controllers;
 
@@ -35,7 +35,7 @@ public class ClientController: Controller
             LastName = model.LastName,
             Email = model.Email,
             Phone = model.Phone,
-            Document = model.Document, 
+            Document = model.Document,
             Address = model.Address
         };
 
@@ -49,7 +49,7 @@ public class ClientController: Controller
         return RedirectToAction(nameof(Index));
     }
 
-    public async Task<IActionResult> Edit(int id)
+    public async Task<IActionResult> Edit(string id)
     {
         var clients = await _clientService.GetAllAsync();
         var client = clients.FirstOrDefault(c => c.Id == id);
@@ -68,9 +68,9 @@ public class ClientController: Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> Edit(int id, ClientViewModel model)
+    public async Task<IActionResult> Edit(string id, ClientViewModel model)
     {
-        if (!ModelState.IsValid) 
+        if (!ModelState.IsValid)
             return View(model);
         var dto = new UpdateClientDto()
         {
@@ -92,7 +92,7 @@ public class ClientController: Controller
         return RedirectToAction(nameof(Index));
     }
 
-    public async Task<IActionResult> Delete(int id)
+    public async Task<IActionResult> Delete(string id)
     {
         var result = await _clientService.DeleteAsync(id);
         if (!result.Success)
