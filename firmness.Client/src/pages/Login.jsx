@@ -13,10 +13,17 @@ export default function Login() {
         try {
             const res = await loginRequest(email, password);
             localStorage.setItem("token", res.data.token);
-            navigate("/products");
+            localStorage.setItem("user", JSON.stringify(res.data.user || { name: "User" }));
+            navigate("/dashboard");
         } catch (error) {
             alert("Login failed: " + (error.response?.data?.message || error.message));
         }
+    };
+
+    const handleDemoLogin = () => {
+        localStorage.setItem("token", "demo-token");
+        localStorage.setItem("user", JSON.stringify({ name: "Demo User", email: "demo@firmness.com" }));
+        navigate("/dashboard");
     };
 
     return (
@@ -95,6 +102,14 @@ export default function Login() {
                             className="w-full rounded-lg bg-blue-600 py-3 font-semibold text-white transition-colors hover:bg-blue-700"
                         >
                             Sign In
+                        </button>
+
+                        <button
+                            type="button"
+                            onClick={handleDemoLogin}
+                            className="w-full rounded-lg bg-green-600 py-3 font-semibold text-white transition-colors hover:bg-green-700"
+                        >
+                            Demo Login
                         </button>
 
                         <p className="text-center text-sm text-gray-500">

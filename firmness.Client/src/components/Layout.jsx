@@ -1,8 +1,17 @@
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { Link, Outlet, useNavigate, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
+import {
+    LayoutDashboard,
+    Wrench,
+    ShoppingCart,
+    Settings,
+    HelpCircle,
+    LogOut
+} from "lucide-react";
 
 export default function Layout() {
     const navigate = useNavigate();
+    const location = useLocation();
     const [user, setUser] = useState(null);
 
     useEffect(() => {
@@ -17,44 +26,74 @@ export default function Layout() {
         navigate("/login");
     };
 
+    const navItems = [
+        { name: "Dashboard", path: "/dashboard", icon: LayoutDashboard },
+        { name: "Products", path: "/products", icon: Wrench },
+        { name: "Cart", path: "/cart", icon: ShoppingCart },
+    ];
+
     return (
-        <div className="min-h-screen flex flex-col bg-gray-100">
-            {/* NAVBAR */}
-            <nav className="bg-blue-600 text-white p-4 flex justify-between items-center shadow-md">
-                <div className="flex items-center gap-6">
-                    <Link to="/products" className="font-semibold hover:text-gray-200 transition">Products</Link>
-                    <Link to="/cart" className="font-semibold hover:text-gray-200 transition">Cart</Link>
+        <div className="flex min-h-screen bg-white">
+            {/* SIDEBAR */}
+            <aside className="w-64 bg-white border-r border-gray-100 flex flex-col fixed h-full z-10">
+                {/* LOGO */}
+                <div className="p-6 flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full bg-[#E3CBA3] flex items-center justify-center text-white font-bold text-xs">
+                        FM
+                    </div>
+                    <div>
+                        <h1 className="font-bold text-gray-900 leading-tight">Firmness</h1>
+                        <p className="text-xs text-gray-500">Construction Management</p>
+                    </div>
                 </div>
 
-                <div className="flex items-center gap-4">
-                    {user ? (
-                        <>
-                            <span className="font-medium">Hello, {user.name || user.email}</span>
-                            <button
-                                onClick={handleLogout}
-                                className="bg-red-500 hover:bg-red-600 px-4 py-1 rounded transition"
+                {/* NAVIGATION */}
+                <nav className="flex-1 px-4 py-4 space-y-1">
+                    {navItems.map((item) => {
+                        const isActive = location.pathname === item.path;
+                        return (
+                            <Link
+                                key={item.path}
+                                to={item.path}
+                                className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors ${isActive
+                                        ? "bg-[#FFF4E6] text-[#F97316]"
+                                        : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                                    }`}
                             >
-                                Logout
-                            </button>
-                        </>
-                    ) : (
-                        <>
-                            <Link to="/login" className="hover:text-gray-200 transition px-3 py-1 rounded bg-blue-500 hover:bg-blue-700">Login</Link>
-                            <Link to="/register" className="hover:text-gray-200 transition px-3 py-1 rounded bg-green-500 hover:bg-green-700">Register</Link>
-                        </>
+                                <item.icon size={20} className={isActive ? "text-[#F97316]" : "text-gray-500"} />
+                                {item.name}
+                            </Link>
+                        );
+                    })}
+                </nav>
+
+                {/* BOTTOM ACTIONS */}
+                <div className="p-4 border-t border-gray-100 space-y-1">
+                    <Link to="/settings" className="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900">
+                        <Settings size={20} className="text-gray-500" />
+                        Settings
+                    </Link>
+                    <Link to="/support" className="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900">
+                        <HelpCircle size={20} className="text-gray-500" />
+                        Support
+                    </Link>
+
+                    {user && (
+                        <button
+                            onClick={handleLogout}
+                            className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-red-600 hover:bg-red-50 mt-4"
+                        >
+                            <LogOut size={20} />
+                            Logout
+                        </button>
                     )}
                 </div>
-            </nav>
+            </aside>
 
             {/* MAIN CONTENT */}
-            <main className="flex-1 p-6 md:p-12">
+            <main className="flex-1 ml-64 p-8 bg-[#FAFAFA]">
                 <Outlet />
             </main>
-
-            {/* FOOTER */}
-            <footer className="bg-gray-800 text-white p-4 text-center mt-auto">
-                &copy; {new Date().getFullYear()} Firmeza. All rights reserved.
-            </footer>
         </div>
     );
 }
