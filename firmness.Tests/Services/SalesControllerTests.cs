@@ -19,8 +19,8 @@ public class SalesControllerTests
                 {
                     SaleId = 1,
                     SaleDate = DateTime.Now,
-                    ClientId = 1,
-                    EmployeeId = 1,
+                    ClientId = "",
+                    EmployeeId = "",
                     Details = new List<SaleDetailDto>()
                 }
             });

@@ -27,7 +27,7 @@ namespace firmness.Infrastructure.Repositories
                 {
                     employees.Add(new Employee
                     {
-                        Id = int.TryParse(user.Id, out int id) ? id : 0,
+                        Id = user.Id,
                         Name = user.Name,
                         LastName = user.LastName,
                         Email = user.Email,
@@ -55,7 +55,7 @@ namespace firmness.Infrastructure.Repositories
 
             return new Employee
             {
-                Id = id,
+                Id = user.Id,
                 Name = user.Name,
                 LastName = user.LastName,
                 Email = user.Email,

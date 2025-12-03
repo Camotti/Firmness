@@ -21,51 +21,65 @@ namespace firmness.Application.Services
             await _repo.GetAllAsync();
 
         public async Task<(bool Success, string Message)> CreateAsync(Employee employee)
+{
+    try
+    {
+        // 1️⃣ Validaciones
+        if (string.IsNullOrWhiteSpace(employee.Name) || string.IsNullOrWhiteSpace(employee.Email))
+            return (false, "El nombre y el correo son obligatorios.");
+
+        if (!employee.Email.Contains("@"))
+            return (false, "El correo electrónico no es válido.");
+
+        // 2️⃣ Verificar si el usuario ya existe
+        var existingUser = await _userManager.FindByEmailAsync(employee.Email);
+        if (existingUser != null)
+            return (false, "Ya existe un usuario con este correo electrónico.");
+
+        // 3️⃣ Crear usuario Identity
+        var user = new ApplicationUser
         {
-            try
-            {
-                // Validaciones básicas
-                if (string.IsNullOrWhiteSpace(employee.Name) || string.IsNullOrWhiteSpace(employee.Email))
-                    return (false, "El nombre y el correo son obligatorios.");
+            UserName = employee.Email,
+            Email = employee.Email,
+            Name = employee.Name,
+            LastName = employee.LastName,
+            PhoneNumber = employee.Phone,
+            Position = employee.Position,
+            Salary = employee.Salary
+        };
 
-                if (!employee.Email.Contains("@"))
-                    return (false, "El correo electrónico no es válido.");
+        string tempPassword = GenerateTemporaryPassword();
+        var result = await _userManager.CreateAsync(user, tempPassword);
 
-                // Verificar si el usuario ya existe
-                var existingUser = await _userManager.FindByEmailAsync(employee.Email);
-                if (existingUser != null)
-                    return (false, "Ya existe un usuario con este correo electrónico.");
+        if (!result.Succeeded)
+            return (false, $"Error al crear usuario: {string.Join(", ", result.Errors.Select(e => e.Description))}");
 
-                // Crear el ApplicationUser
-                var user = new ApplicationUser
-                {
-                    UserName = employee.Email,
-                    Email = employee.Email,
-                    Name = employee.Name,
-                    LastName = employee.LastName,
-                    PhoneNumber = employee.Phone,
-                    Position = employee.Position,
-                    Salary = employee.Salary
-                };
+        // 4️⃣ Asignar rol
+        await _userManager.AddToRoleAsync(user, "Employee");
 
-                // Crear usuario con contraseña temporal
-                // Idealmente deberías recibir la contraseña en el Employee o crear un DTO
-                string temporaryPassword = GenerateTemporaryPassword();
-                var result = await _userManager.CreateAsync(user, temporaryPassword);
+        // 5️⃣ Crear Employee con user.Id
+        var newEmployee = new Employee
+        {
+            Id = user.Id,        // 🔥🔥 IMPORTANTE 🔥🔥
+            Name = employee.Name,
+            LastName = employee.LastName,
+            Email = employee.Email,
+            Phone = employee.Phone,
+            Position = employee.Position,
+            Role = employee.Role,
+            Salary = employee.Salary
+        };
 
-                if (!result.Succeeded)
-                    return (false, $"Error al crear empleado: {string.Join(", ", result.Errors.Select(e => e.Description))}");
+        // 6️⃣ Guardar en tabla Employees
+        await _repo.AddAsync(newEmployee);
 
-                // Asignar rol de Employee
-                await _userManager.AddToRoleAsync(user, "Employee");
-
-                return (true, $"Empleado creado correctamente. Contraseña temporal: {temporaryPassword}");
-            }
-            catch (Exception ex)
-            {
-                return (false, $"Error: {ex.Message}");
-            }
-        }
+        return (true, $"Empleado creado correctamente. Contraseña temporal: {tempPassword}");
+    }
+    catch (Exception ex)
+    {
+        return (false, $"Error: {ex.Message}");
+    }
+}
 
         public async Task<(bool Success, string Message)> UpdateAsync(Employee employee)
         {

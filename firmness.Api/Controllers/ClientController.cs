@@ -45,9 +45,9 @@ public class ClientController : ControllerBase
     
     [Authorize(Roles = "Admin")]
     [HttpPut("{id}")]
-    public async Task<IActionResult> Update(string id, [FromBody] UpdateClientDto dto) // ⭐ string en lugar de int
+    public async Task<IActionResult> Update(string id,[FromBody] UpdateClientDto dto)
     {
-        if (id != dto.Id)
+        if (id != dto.Id)  // 
             return BadRequest("The Id in the URL doesn't match the DTO");
         
         if (!ModelState.IsValid)
@@ -61,10 +61,10 @@ public class ClientController : ControllerBase
         return Ok(result.Message);
     }
     
-    // Delete api clients by ID 
+    //Delete api clients by ID 
     [Authorize(Roles = "Admin")]
     [HttpDelete("{id}")]
-    public async Task<IActionResult> Delete(string id) // ⭐ string en lugar de int
+    public async Task<IActionResult> Delete(string id)
     {
         var result = await _clientService.DeleteAsync(id);
 

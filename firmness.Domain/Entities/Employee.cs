@@ -1,7 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+
 using firmness.Domain.Models;
 
+namespace firmness.Domain.Entities;
 public class Employee : Person
 {
     [Required, StringLength(100)]

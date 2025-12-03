@@ -1,7 +1,7 @@
 ﻿using firmness.Domain.Entities;
 using firmness.Application.Interfaces;
 using firmness.Application.DTOs;
-using firmness.Application.Interfaces.Repositories;
+using firmness.Application.Interfaces;
 using AutoMapper;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -37,7 +37,7 @@ namespace firmness.Application.Services
         {
             try
             {
-                if (saleDto.ClientId <= 0 || saleDto.EmployeeId <= 0 || saleDto.Details.Count == 0)
+                if (saleDto.Details.Count == 0)
                     return false;
 
                 var sale = new Sale

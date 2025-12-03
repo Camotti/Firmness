@@ -8,6 +8,17 @@
 <h1>Create</h1>
 
 <h4>Employee</h4>
+
+@if (!string.IsNullOrEmpty(Model.SuccessMessage))
+{
+    <div class="alert alert-success">@Model.SuccessMessage</div>
+}
+
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <div class="alert alert-danger">@Model.ErrorMessage</div>
+}
+
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -18,6 +29,12 @@
                 <label asp-for="Employee.Role" class="control-label"></label>
                 <input asp-for="Employee.Role" class="form-control" />
                 <span asp-validation-for="Employee.Role" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <span class="text-danger">*</span>
+                <label asp-for="Employee.Position" class="control-label"></label>
+                <input asp-for="Employee.Position" class="form-control" />
+                <span asp-validation-for="Employee.Position" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <span class="text-danger">*</span>
@@ -48,6 +65,7 @@
                 <input asp-for="Employee.Phone" class="form-control" />
                 <span asp-validation-for="Employee.Phone" class="text-danger"></span>
             </div>
+            
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>

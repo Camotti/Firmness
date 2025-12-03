@@ -22,7 +22,7 @@ namespace firmness.Pages.Employees
         [BindProperty]
         public Employee Employee { get; set; } = default!;
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(string? id)
         {
             if (id == null)
             {
@@ -42,7 +42,7 @@ namespace firmness.Pages.Employees
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(int? id)
+        public async Task<IActionResult> OnPostAsync(string? id)
         {
             if (id == null)
             {

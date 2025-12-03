@@ -147,6 +147,7 @@ await CreateRolesAsync(app);
 
 
 // app.UseHttpsRedirection();
+app.UseRouting();
 app.UseCors("AllowAll");
 app.UseAuthentication();
 app.UseAuthorization();
@@ -161,7 +162,7 @@ async Task CreateRolesAsync(WebApplication app)
     using var scope = app.Services.CreateScope();
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
-    string[] roles = { "Admin", "Client" };
+    string[] roles = { "Admin", "Client" , "Employee" };
 
     foreach (var role in roles)
     {
@@ -171,3 +172,4 @@ async Task CreateRolesAsync(WebApplication app)
         }
     }
 }
+

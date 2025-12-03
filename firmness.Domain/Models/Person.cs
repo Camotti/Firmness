@@ -4,9 +4,8 @@ namespace firmness.Domain.Models
 {
     public abstract class Person
     {
-        public int Id { get; set; }
-
-
+        public string? Id { get; set; }
+        
         [Required, StringLength(100)]
         public string? Name { get; set; }
 
@@ -22,5 +21,7 @@ namespace firmness.Domain.Models
         [Required(ErrorMessage = "El teléfono es obligatorio.")]
         [Phone(ErrorMessage = "Número de teléfono inválido.")]
         public string? Phone { get; set; }
+        
+        public string? Password { get; set; }
     }   
 }

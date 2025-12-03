@@ -19,7 +19,7 @@ public class SalesServiceTests
     {
         var service = new SalesService(_repo.Object, _mapper.Object, _email.Object);
 
-        var dto = new CreateSaleDto { ClientId = 0, EmployeeId = 0, Details = new List<CreateSaleDetailDto>() };
+        var dto = new CreateSaleDto { ClientId = "", EmployeeId = "", Details = new List<CreateSaleDetailDto>() };
 
         var result = await service.CreateSaleAsync(dto);
 

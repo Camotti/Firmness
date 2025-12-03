@@ -23,7 +23,7 @@ namespace firmness.Pages.Clients
         [BindProperty]
         public Client Client { get; set; } = default!;
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(string? id)
         {
             if (id == null)
             {
@@ -69,7 +69,7 @@ namespace firmness.Pages.Clients
             return RedirectToPage("./Index");
         }
 
-        private bool ClientExists(int id)
+        private bool ClientExists(string id)
         {
             return _context.Clients.Any(e => e.Id == id);
         }

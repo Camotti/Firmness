@@ -1,14 +1,14 @@
 ﻿using firmness.Domain.Entities;
 
-namespace firmness.Infrastructure.Repositories
+namespace firmness.Application.Interfaces
 {
     public interface IClientRepository
     {
         Task<List<Client>> GetAllAsync();
-        Task<Client?> GetByIdAsync(int id);
+        Task<Client?> GetByIdAsync(string id);
         Task AddAsync(Client client);
         Task UpdateAsync(Client client);
-        Task DeleteAsync(int id);
+        Task DeleteAsync(string id);
         Task SaveAsync();
     }
 }

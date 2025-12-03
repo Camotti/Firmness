@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using firmness.Domain.Entities;
-using firmness.Infrastructure.Data;
+using firmness.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -12,11 +12,11 @@ namespace firmness.Pages.Employees
 {
     public class CreateModel : PageModel
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IEmployeeService _employeeService;
 
-        public CreateModel(ApplicationDbContext context)
+        public CreateModel(IEmployeeService employeeService)
         {
-            _context = context;
+            _employeeService = employeeService;
         }
 
         public IActionResult OnGet()
@@ -27,6 +27,12 @@ namespace firmness.Pages.Employees
         [BindProperty]
         public Employee Employee { get; set; } = default!;
 
+        [TempData]
+        public string? SuccessMessage { get; set; }
+
+        [TempData]
+        public string? ErrorMessage { get; set; }
+
         // For more information, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
@@ -35,9 +41,15 @@ namespace firmness.Pages.Employees
                 return Page();
             }
 
-            _context.Employees.Add(Employee);
-            await _context.SaveChangesAsync();
+            var (success, message) = await _employeeService.CreateAsync(Employee);
 
+            if (!success)
+            {
+                ErrorMessage = message;
+                return Page();
+            }
+
+            SuccessMessage = message;
             return RedirectToPage("./Index");
         }
     }

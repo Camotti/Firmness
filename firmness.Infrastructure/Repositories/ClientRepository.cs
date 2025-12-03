@@ -1,5 +1,5 @@
 ﻿using firmness.Domain.Entities;
-using firmness.Application.Interfaces.Repositories;
+using firmness.Application.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -27,7 +27,7 @@ namespace firmness.Infrastructure.Repositories
                 {
                     clients.Add(new Client
                     {
-                        Id = int.TryParse(user.Id, out int id) ? id : 0,
+                        Id = user.Id,
                         Name = user.Name,
                         LastName = user.LastName,
                         Email = user.Email,
@@ -42,7 +42,7 @@ namespace firmness.Infrastructure.Repositories
         }
 
         // Obtener cliente por ID
-        public async Task<Client?> GetByIdAsync(int id)
+        public async Task<Client?> GetByIdAsync(string id)
         {
             var user = await _userManager.FindByIdAsync(id.ToString());
             if (user == null)
@@ -101,7 +101,7 @@ namespace firmness.Infrastructure.Repositories
         }
 
         // Eliminar cliente por ID
-        public async Task DeleteAsync(int id)
+        public async Task DeleteAsync(string id)
         {
             var user = await _userManager.FindByIdAsync(id.ToString());
             if (user != null)

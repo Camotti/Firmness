@@ -5,17 +5,17 @@ namespace firmness.ViewModels;
 
 public class SaleViewModel
 {
-    public int  SaleId { get; set; }
+    public int SaleId { get; set; }
     
     [Required]
     [DataType(DataType.DateTime)]
     public DateTime Date { get; set; }=DateTime.UtcNow;
     
     [Required]
-    public int ClientId { get; set; }
+    public string ClientId { get; set; }
     
     [Required]
-    public int EmployeeId { get; set; }
+    public string EmployeeId { get; set; }
     
     // listas 
     public List<SelectListItem> Clients { get; set; } = new();

@@ -1,11 +1,8 @@
-﻿using firmness.Domain.Entities;
-using firmness.Application.Interfaces;
+﻿using firmness.Application.Interfaces;
 using firmness.Application.DTOs;
-using firmness.Application.Interfaces.Repositories;
 using Microsoft.AspNetCore.Identity;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using IClientRepository = firmness.Infrastructure.Repositories.IClientRepository;
 
 namespace firmness.Application.Services
 {

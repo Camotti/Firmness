@@ -23,7 +23,7 @@ namespace firmness.Pages.Employees
         [BindProperty]
         public Employee Employee { get; set; } = default!;
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(string? id)
         {
             if (id == null)
             {
@@ -69,7 +69,7 @@ namespace firmness.Pages.Employees
             return RedirectToPage("./Index");
         }
 
-        private bool EmployeeExists(int id)
+        private bool EmployeeExists(string id)
         {
             return _context.Employees.Any(e => e.Id == id);
         }

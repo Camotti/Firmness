@@ -21,7 +21,7 @@ namespace firmness.Pages.Clients
 
         public Client Client { get; set; } = default!;
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(string? id)
         {
             if (id == null)
             {

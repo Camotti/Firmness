@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using firmness.Domain.Entities;
-using firmness.Infrastructure.Data;
+using firmness.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -12,18 +12,18 @@ namespace firmness.Pages.Employees
 {
     public class IndexModel : PageModel
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IEmployeeService _employeeService;
 
-        public IndexModel(ApplicationDbContext context)
+        public IndexModel(IEmployeeService employeeService)
         {
-            _context = context;
+            _employeeService = employeeService;
         }
 
         public IList<Employee> Employee { get;set; } = default!;
 
         public async Task OnGetAsync()
         {
-            Employee = await _context.Employees.ToListAsync();
+            Employee = await _employeeService.GetAllAsync();
         }
     }
 }
