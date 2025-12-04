@@ -13,6 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Configurar EPPlus para uso no comercial (versión 8+)
 // Opción 1: Para uso organizacional
+QuestPDF.Settings.License = QuestPDF.Infrastructure.LicenseType.Community;
 ExcelPackage.License.SetNonCommercialOrganization("firmness");
 
 

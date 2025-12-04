@@ -25,7 +25,15 @@ namespace firmness.Pages.Products
             if (!ModelState.IsValid)
                 return Page();
 
-            var (success, message) = await _productService.CreateAsync(new CreateProductDto());
+            var productDto = new CreateProductDto
+            {
+                Name = Product.Name,
+                Price = Product.Price,
+                Stock = Product.Stock,
+                Description = Product.Description
+            };
+
+            var (success, message) = await _productService.CreateAsync(productDto);
             TempData["Message"] = message;
 
             if (!success)

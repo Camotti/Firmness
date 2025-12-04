@@ -7,9 +7,18 @@
 
 <h1>Index</h1>
 
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
 <p>
     <a asp-page="Create">Create New</a>
-    <a asp-page-handler="Pdf" class="btn btn-secondary" style="margin-left: 10px;">Generate PDF</a>
+    <form method="get" asp-page-handler="Pdf" style="display: inline; margin-left: 10px;">
+        <button type="submit" class="btn btn-secondary">Generate PDF</button>
+    </form>
 </p>
 <table class="table">
     <thead>

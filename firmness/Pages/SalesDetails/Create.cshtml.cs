@@ -35,6 +35,9 @@ namespace firmness.Pages.SalesDetails
         {
             if (!ModelState.IsValid)
             {
+                // Repopulate dropdowns on validation failure
+                ViewData["ProductId"] = new SelectList(_context.Products, "Id", "Name");
+                ViewData["SaleId"] = new SelectList(_context.Sales, "SaleId", "SaleId");
                 return Page();
             }
 

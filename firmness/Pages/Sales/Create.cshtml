@@ -26,14 +26,18 @@
             <!-- Cliente -->
             <div class="form-group mb-3">
                 <label asp-for="Sale.ClientId" class="control-label"></label>
-                <select asp-for="Sale.ClientId" class="form-control" asp-items="ViewBag.ClientId"></select>
+                <select asp-for="Sale.ClientId" class="form-control" asp-items="ViewBag.ClientId">
+                    <option value="">-- Select a Client --</option>
+                </select>
                 <span asp-validation-for="Sale.ClientId" class="text-danger"></span>
             </div>
 
             <!-- Empleado -->
             <div class="form-group mb-3">
                 <label asp-for="Sale.EmployeeId" class="control-label"></label>
-                <select asp-for="Sale.EmployeeId" class="form-control" asp-items="ViewBag.EmployeeId"></select>
+                <select asp-for="Sale.EmployeeId" class="form-control" asp-items="ViewBag.EmployeeId">
+                    <option value="">-- Select an Employee --</option>
+                </select>
                 <span asp-validation-for="Sale.EmployeeId" class="text-danger"></span>
             </div>
 
