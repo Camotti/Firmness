@@ -1,10 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Identity;
 
 namespace firmness.Domain.Models
 {
-    public abstract class Person
+    public abstract class Person : IdentityUser
     {
-        public string? Id { get; set; }
+        [Key]
+        public string? Id { get; set; }   
         
         [Required, StringLength(100)]
         public string? Name { get; set; }
